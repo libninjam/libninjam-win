@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/gninjam/!svn/ver/115/libninjam/trunk/ninjam/cursesclient
+END
+ninjam.config
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/ninjam/cursesclient/ninjam.config
+END
+COMPILING
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/ninjam/cursesclient/COMPILING
+END
+cursesclient.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/gninjam/!svn/ver/45/libninjam/trunk/ninjam/cursesclient/cursesclient.cpp
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/gninjam/!svn/ver/115/libninjam/trunk/ninjam/cursesclient/Makefile
+END

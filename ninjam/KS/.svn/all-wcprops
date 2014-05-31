@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/gninjam/!svn/ver/115/libninjam/trunk/ninjam
+END
+mpb.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/gninjam/!svn/ver/51/libninjam/trunk/ninjam/mpb.cpp
+END
+audiostream.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/gninjam/!svn/ver/28/libninjam/trunk/ninjam/audiostream.h
+END
+netmsg.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/gninjam/!svn/ver/51/libninjam/trunk/ninjam/netmsg.h
+END
+mpb.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/gninjam/!svn/ver/51/libninjam/trunk/ninjam/mpb.h
+END
+njmisc.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/gninjam/!svn/ver/2/libninjam/trunk/ninjam/njmisc.cpp
+END
+audiostream_jack.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/gninjam/!svn/ver/85/libninjam/trunk/ninjam/audiostream_jack.cpp
+END
+njclient.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/gninjam/!svn/ver/105/libninjam/trunk/ninjam/njclient.cpp
+END
+njmisc.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/gninjam/!svn/ver/42/libninjam/trunk/ninjam/njmisc.h
+END
+njclient.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/gninjam/!svn/ver/105/libninjam/trunk/ninjam/njclient.h
+END
+audiostream_alsa.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svnroot/gninjam/!svn/ver/2/libninjam/trunk/ninjam/audiostream_alsa.cpp
+END
+audiostream_mac.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/gninjam/!svn/ver/2/libninjam/trunk/ninjam/audiostream_mac.cpp
+END
+netmsg.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/gninjam/!svn/ver/51/libninjam/trunk/ninjam/netmsg.cpp
+END

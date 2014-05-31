@@ -1,0 +1,263 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/gninjam/!svn/ver/115/libninjam/trunk/debian
+END
+ninjam-client.docs
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/gninjam/!svn/ver/5/libninjam/trunk/debian/ninjam-client.docs
+END
+ninjam-client.doc-base.EX
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/debian/ninjam-client.doc-base.EX
+END
+libninjam-client.dirs
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/gninjam/!svn/ver/2/libninjam/trunk/debian/libninjam-client.dirs
+END
+ninjam-server.dirs
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/gninjam/!svn/ver/54/libninjam/trunk/debian/ninjam-server.dirs
+END
+control
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/gninjam/!svn/ver/56/libninjam/trunk/debian/control
+END
+ninjam-server.init
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/gninjam/!svn/ver/55/libninjam/trunk/debian/ninjam-server.init
+END
+manpage.sgml.ex
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/debian/manpage.sgml.ex
+END
+libninjam-client.install
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/gninjam/!svn/ver/2/libninjam/trunk/debian/libninjam-client.install
+END
+ninjam-client.install
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/gninjam/!svn/ver/49/libninjam/trunk/debian/ninjam-client.install
+END
+ninjam-server.examples
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/gninjam/!svn/ver/59/libninjam/trunk/debian/ninjam-server.examples
+END
+postinst.ex
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/debian/postinst.ex
+END
+postrm.ex
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/debian/postrm.ex
+END
+preinst.ex
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/debian/preinst.ex
+END
+prerm.ex
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/debian/prerm.ex
+END
+ninjam-server.default
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/gninjam/!svn/ver/54/libninjam/trunk/debian/ninjam-server.default
+END
+ninjam-server.conf
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/gninjam/!svn/ver/53/libninjam/trunk/debian/ninjam-server.conf
+END
+libninjam-common-dev.dirs
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/gninjam/!svn/ver/4/libninjam/trunk/debian/libninjam-common-dev.dirs
+END
+ninjam-server.docs
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/gninjam/!svn/ver/59/libninjam/trunk/debian/ninjam-server.docs
+END
+libninjam-common-dev.install
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/gninjam/!svn/ver/4/libninjam/trunk/debian/libninjam-common-dev.install
+END
+menu.ex
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/debian/menu.ex
+END
+ninjam-server.logrotate
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/gninjam/!svn/ver/84/libninjam/trunk/debian/ninjam-server.logrotate
+END
+emacsen-remove.ex
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/debian/emacsen-remove.ex
+END
+watch.ex
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/debian/watch.ex
+END
+manpage.xml.ex
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/debian/manpage.xml.ex
+END
+manpage.1.ex
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/debian/manpage.1.ex
+END
+compat
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/debian/compat
+END
+ninjam-client-default.ex
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/debian/ninjam-client-default.ex
+END
+ninjam-server.install
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/gninjam/!svn/ver/49/libninjam/trunk/debian/ninjam-server.install
+END
+emacsen-startup.ex
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/debian/emacsen-startup.ex
+END
+changelog
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/gninjam/!svn/ver/115/libninjam/trunk/debian/changelog
+END
+ninjam-client.dirs
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/gninjam/!svn/ver/49/libninjam/trunk/debian/ninjam-client.dirs
+END
+libninjam-common.dirs
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/gninjam/!svn/ver/2/libninjam/trunk/debian/libninjam-common.dirs
+END
+emacsen-install.ex
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/debian/emacsen-install.ex
+END
+rules
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/gninjam/!svn/ver/112/libninjam/trunk/debian/rules
+END
+libninjam-client-dev.dirs
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/gninjam/!svn/ver/4/libninjam/trunk/debian/libninjam-client-dev.dirs
+END
+libninjam-common.install
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/gninjam/!svn/ver/2/libninjam/trunk/debian/libninjam-common.install
+END
+cron.d.ex
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/debian/cron.d.ex
+END
+init.d.ex
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/debian/init.d.ex
+END
+libninjam-client-dev.install
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/gninjam/!svn/ver/45/libninjam/trunk/debian/libninjam-client-dev.install
+END
+dirs
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/debian/dirs
+END
+ninjam-client.examples
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/gninjam/!svn/ver/5/libninjam/trunk/debian/ninjam-client.examples
+END
+copyright
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/debian/copyright
+END
+README.Debian
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/debian/README.Debian
+END

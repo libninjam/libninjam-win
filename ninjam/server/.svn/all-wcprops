@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/gninjam/!svn/ver/83/libninjam/trunk/ninjam/server
+END
+ninjamserver.dsw
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/ninjam/server/ninjamserver.dsw
+END
+usercon.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/gninjam/!svn/ver/51/libninjam/trunk/ninjam/server/usercon.cpp
+END
+license.txt
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/ninjam/server/license.txt
+END
+usercon.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/gninjam/!svn/ver/51/libninjam/trunk/ninjam/server/usercon.h
+END
+cclicense.txt
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/ninjam/server/cclicense.txt
+END
+ninjamserver.dsp
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/ninjam/server/ninjamserver.dsp
+END
+ninjamsrv.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/gninjam/!svn/ver/83/libninjam/trunk/ninjam/server/ninjamsrv.cpp
+END
+example.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/gninjam/!svn/ver/51/libninjam/trunk/ninjam/server/example.cfg
+END
+makefile
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/gninjam/!svn/ver/47/libninjam/trunk/ninjam/server/makefile
+END

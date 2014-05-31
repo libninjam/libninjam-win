@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svnroot/gninjam/!svn/ver/74/libninjam/trunk/WDL
+END
+heapbuf.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/gninjam/!svn/ver/51/libninjam/trunk/WDL/heapbuf.h
+END
+sha.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/sha.h
+END
+ptrlist.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/gninjam/!svn/ver/51/libninjam/trunk/WDL/ptrlist.h
+END
+rng.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/rng.cpp
+END
+lineparse.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/gninjam/!svn/ver/51/libninjam/trunk/WDL/lineparse.h
+END
+mutex.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/gninjam/!svn/ver/49/libninjam/trunk/WDL/mutex.h
+END
+dirscan.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/dirscan.h
+END
+pcmfmtcvt.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/gninjam/!svn/ver/49/libninjam/trunk/WDL/pcmfmtcvt.h
+END
+queue.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/gninjam/!svn/ver/51/libninjam/trunk/WDL/queue.h
+END
+rng.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/rng.h
+END
+sha.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/gninjam/!svn/ver/74/libninjam/trunk/WDL/sha.cpp
+END
+string.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/gninjam/!svn/ver/51/libninjam/trunk/WDL/string.h
+END
+vorbisencdec.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/gninjam/!svn/ver/2/libninjam/trunk/WDL/vorbisencdec.h
+END
+wavwrite.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/gninjam/!svn/ver/49/libninjam/trunk/WDL/wavwrite.h
+END

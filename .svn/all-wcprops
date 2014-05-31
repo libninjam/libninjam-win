@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svnroot/gninjam/!svn/ver/115/libninjam/trunk
+END
+ninjam.pc.in
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/gninjam/!svn/ver/47/libninjam/trunk/ninjam.pc.in
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/gninjam/!svn/ver/115/libninjam/trunk/Makefile
+END
+ninjam-client.pc.in
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/gninjam/!svn/ver/47/libninjam/trunk/ninjam-client.pc.in
+END

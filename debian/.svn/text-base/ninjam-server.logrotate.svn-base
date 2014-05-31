@@ -1,0 +1,14 @@
+/var/log/ninjam/ninjam-server.log {
+  rotate 6
+  monthly
+  compress
+  delaycompress
+  missingok
+  notifempty
+  sharedscripts
+  postrotate
+    if [ -f /var/run/ninjam-server.pid ]; then
+      /etc/init.d/ninjam-server reload > /dev/null
+    fi
+  endscript
+}

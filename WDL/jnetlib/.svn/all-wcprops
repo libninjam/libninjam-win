@@ -1,0 +1,113 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/jnetlib
+END
+listen.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/jnetlib/listen.cpp
+END
+connection.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/jnetlib/connection.cpp
+END
+testbnc.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/jnetlib/testbnc.cpp
+END
+listen.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/jnetlib/listen.h
+END
+connection.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/jnetlib/connection.h
+END
+webserver.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/jnetlib/webserver.cpp
+END
+webserver.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/jnetlib/webserver.h
+END
+util.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/jnetlib/util.cpp
+END
+test.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/jnetlib/test.cpp
+END
+httpserv.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/jnetlib/httpserv.cpp
+END
+httpget.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/jnetlib/httpget.cpp
+END
+util.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/jnetlib/util.h
+END
+asyncdns.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/jnetlib/asyncdns.cpp
+END
+httpserv.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/jnetlib/httpserv.h
+END
+httpget.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/jnetlib/httpget.h
+END
+netinc.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/jnetlib/netinc.h
+END
+asyncdns.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/jnetlib/asyncdns.h
+END
+jnetlib.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/gninjam/!svn/ver/1/libninjam/trunk/WDL/jnetlib/jnetlib.h
+END

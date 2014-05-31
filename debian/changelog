@@ -1,0 +1,186 @@
+ninjam (0.06+svn121-0ubuntu0~quantal2) quantal; urgency=low
+
+  * Quantal build
+
+ -- falkTX <falktx@gmail.com>  Thu, 18 Oct 2012 03:34:50 +0100
+
+ninjam (0.06+svn121-0ubuntu0~precise2) precise; urgency=low
+
+  * Precise build
+
+ -- falkTX <falktx@gmail.com>  Wed, 24 Aug 2011 17:26:06 +0100
+
+ninjam (0.06+svn121-0ubuntu0~lucid1) lucid; urgency=low
+
+  * Upload to KXStudio Team PPA
+
+ -- falkTX <falktx@gmail.com>  Thu, 28 Apr 2011 15:37:00 +0100
+
+ninjam (0.06+svn121-0~ppa4) lucid; urgency=low
+
+  * Moved to Lucid Main
+
+ -- falkTX <falktx@gmail.com>  Mon, 28 Jun 2010 16:25:34 +0100
+
+ninjam (0.06+svn121-0~ppa3) lucid; urgency=low
+
+  * fixed again
+
+ -- falkTX <falktx@gmail.com>  Tue, 18 May 2010 21:52:40 +0100
+
+ninjam (0.06+svn121-0~ppa2) lucid; urgency=low
+
+  * fixed upload
+
+ -- falkTX <falktx@gmail.com>  Tue, 18 May 2010 21:40:17 +0100
+
+ninjam (0.06+svn121-0~ppa1) lucid; urgency=low
+
+  * Upload to Lucid
+
+ -- falkTX <falktx@gmail.com>  Tue, 18 May 2010 21:31:34 +0100
+
+ninjam (0.06-1ubuntu9) hardy; urgency=low
+
+  * add conditional to Makefile to predict correct compile flags for 
+    64bit CPUs
+
+ -- Tobias Gehrig <tobias@gehrignet.de>  Tue, 15 Apr 2008 16:17:33 +0200
+
+ninjam (0.06-1ubuntu8) gutsy; urgency=low
+
+  * add per-user autosubscribe option
+
+ -- Tobias Gehrig <tobias@gehrignet.de>  Sat, 16 Feb 2008 16:17:04 +0100
+
+ninjam (0.06-1ubuntu7) gutsy; urgency=low
+
+  * make create_audioStreamer_JACK return NULL, if the jack connection 
+    cannot be successfully established.
+
+ -- Tobias Gehrig <tobias@gehrignet.de>  Mon, 11 Feb 2008 14:41:12 +0100
+
+ninjam (0.06-1ubuntu6) gutsy; urgency=low
+
+  * reopen server log file on SIGHUP so that logrotate can work properly
+  * updated logrotate file to reload server after log rotation
+
+ -- Tobias Gehrig <tobias@gehrignet.de>  Fri, 08 Feb 2008 04:24:37 +0100
+
+ninjam (0.06-1ubuntu5) gutsy; urgency=low
+
+  * fixed output of month in server log file
+
+ -- Tobias Gehrig <tobias@gehrignet.de>  Fri, 08 Feb 2008 03:49:33 +0100
+
+ninjam (0.06-1ubuntu4) gutsy; urgency=low
+
+  * apply patch from jnc to get njclient.cpp to compile on amd64
+  * fixed WDL/sha.cpp so authentication on ninjam server works correctly
+    on amd64
+
+ -- Tobias Gehrig <tobias@gehrignet.de>  Mon, 04 Feb 2008 23:33:41 +0100
+
+ninjam (0.06-1ubuntu3) gutsy; urgency=low
+
+  * add php script examples to retrieve the server status
+  * add official server guide
+
+ -- Tobias Gehrig <tobias@gehrignet.de>  Wed, 30 Jan 2008 18:32:58 +0100
+
+ninjam (0.06-1ubuntu2) gutsy; urgency=low
+
+  * fix build-depends
+
+ -- Tobias Gehrig <tobias@gehrignet.de>  Tue, 29 Jan 2008 18:35:29 +0100
+
+ninjam (0.06-1ubuntu1) gutsy; urgency=low
+
+  * add init.d script, logrotate, default and config file
+
+ -- Tobias Gehrig <tobias@gehrignet.de>  Mon, 21 Jan 2008 23:14:28 +0100
+
+ninjam (0.06-1) gutsy; urgency=low
+
+  * merged with new upstream version of server
+
+ -- Tobias Gehrig <tobias@gehrignet.de>  Sun, 20 Jan 2008 01:33:36 +0100
+
+ninjam (0.02-7ubuntu3) feisty; urgency=low
+
+  * fix some Makefile errors and create pkgconfig automatically with 
+    correct PREFIX (patch by Adam Sampson) and VERSION
+
+ -- Tobias Gehrig <tobias@gehrignet.de>  Thu, 11 Jan 2007 20:43:01 +0100
+
+ninjam (0.02-7ubuntu2) feisty; urgency=low
+
+  * add pkgconfig files for client libraries
+  * set stereoout to true by default to fix a problem in cninjam
+    (patch by Adam Sampson)
+  * separate PREFIX and DESTDIR in makefiles
+  * enable backspace key in curses client for non-MAC platforms
+    (patch by Adam Sampson)
+
+ -- Tobias Gehrig <tobias@gehrignet.de>  Thu, 11 Jan 2007 01:06:22 +0100
+
+ninjam (0.02-7ubuntu1) feisty; urgency=low
+
+  * update pkgconfig file to reflect current version
+
+ -- Tobias Gehrig <tobias@gehrignet.de>  Wed, 10 Jan 2007 20:50:42 +0100
+
+ninjam (0.02-7) unstable; urgency=low
+
+  * fix compilation of cursesclient on system where libninjam has not
+    yet been installed.
+
+ -- Tobias Gehrig <tobias@gehrignet.de>  Thu, 23 Nov 2006 01:32:50 +0100
+
+ninjam (0.02-6) unstable; urgency=low
+
+  * added jack transport fix from robin
+  * added patch for multiple outputs from expertsleepers
+  * fix problem with possibly negative output channel number
+  * make stereo channel output configurable
+  * add interface for adding audio channels and getting the names
+    from in- and output ports seperately
+	
+ -- Tobias Gehrig <tobias@gehrignet.de>  Wed, 22 Nov 2006 03:58:24 +0100
+
+ninjam (0.02-5) unstable; urgency=low
+
+  * make number of in-/output channels and client name of the
+    jack driver variable
+
+ -- Tobias Gehrig <tobias@gehrignet.de>  Sat, 18 Nov 2006 18:41:59 +0100
+
+ninjam (0.02-4) unstable; urgency=low
+
+  * reenabled alsa driver in addition to the jack driver
+  * some more conversions from char* to const char*
+
+ -- Tobias Gehrig <tobias@gehrignet.de>  Sat, 18 Nov 2006 03:47:07 +0100
+
+ninjam (0.02-3) unstable; urgency=low
+
+  * change filename parameter in WaveWriter to const char*
+
+ -- Tobias Gehrig <tobias@gehrignet.de>  Fri, 17 Nov 2006 18:24:32 +0100
+
+ninjam (0.02-2) unstable; urgency=low
+
+  *  changed SetLocalChannelInfo to get const char* name as input
+     instead of char* name
+
+ -- Tobias Gehrig <tobias@gehrignet.de>  Fri, 17 Nov 2006 01:48:49 +0100
+
+ninjam (0.02-1) unstable; urgency=low
+
+  * Initial release of ninjam library
+  * client and server build modified to use that library
+  * patched version of cursesclient using jack
+  * some parameters changed from char* to const char*
+
+ -- Tobias Gehrig <tobias@gehrignet.de>  Mon, 15 Nov 2006 00:57:01 +0100
+
