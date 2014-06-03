@@ -65,50 +65,61 @@ struct
 
 } configdata = {
 #ifndef NO_SUPPORT_ASIO
-  WINDOWS_AUDIO_ASIO , // default to ASIO
+  audioStreamer::WINDOWS_AUDIO_ASIO    , // default to ASIO
 #else // NO_SUPPORT_ASIO
 #  ifndef NO_SUPPORT_KS
-  WINDOWS_AUDIO_KS ,   // default to KS
+  audioStreamer::WINDOWS_AUDIO_KS      , // default to KS
 #  else // NO_SUPPORT_KS
 #    ifndef NO_SUPPORT_DS
-  WINDOWS_AUDIO_DS ,   // default to DS
+  audioStreamer::WINDOWS_AUDIO_DS      , // default to DS
 #    else // NO_SUPPORT_DS
-  WINDOWS_AUDIO_WAVE , // default to WAVE
+  audioStreamer::WINDOWS_AUDIO_WAVE    , // default to WAVE
 #    endif // NO_SUPPORT_DS
 #  endif // NO_SUPPORT_ASIO
 #endif // NO_SUPPORT_KS
 
-   48000, //ks_srate;
-   16, //ks_bps;
-   {-1,-1}, //ks_device;
-   512, //ks_blocksize;
-   8, // ks_numblocks;
+   48000                               , // ks_srate ;
+   16                                  , // ks_bps ;
+   {-1 , -1}                           , // ks_device ;
+   512                                 , // ks_blocksize ;
+   8                                   , // ks_numblocks ;
 
-   44100, //waveout_srate;
-   16, //waveout_bps;
-   {-1,-1}, //waveout_device;
-   4096, //waveout_blocksize;
-   8, //waveout_numblocks;
+   44100                               , // waveout_srate ;
+   16                                  , // waveout_bps ;
+   {-1 , -1}                           , // waveout_device ;
+   4096                                , // waveout_blocksize ;
+   8                                   , // waveout_numblocks ;
 
-   44100, //dsound_srate;
-   16, //dsound_bps;
-   {{0,0,0,0},{0,0,0,0}}, //dsound_device;
-   1024, //dsound_blocksize;
-   16, //dsound_numblocks;
+   44100                               , // dsound_srate ;
+   16                                  , // dsound_bps ;
+   {{0 , 0 , 0 , 0} , {0 , 0 , 0 , 0}} , // dsound_device ;
+   1024                                , // dsound_blocksize ;
+   16                                  , // dsound_numblocks ;
 
-   0, //asio_driver;
-   {0,1}, //asio_input;
-   {0,1}, //asio_output;
+   0                                   , // asio_driver ;
+   {0 , 1}                             , // asio_input ;
+   {0 , 1}                               // asio_output ;
+} ;
 
-};
 
-
+#if WIN32_GUI
 static BOOL CALLBACK configDlgMainProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+#endif // WIN32_GUI
+
 
 static WDL_String m_inifile;
 #define MYRI(val,name) if (isload) { configdata.##val = GetPrivateProfileInt("audioconfig",#name,configdata.##val,m_inifile.Get()); } else { char buf[512]; wsprintf(buf,"%d",configdata.##val); WritePrivateProfileString("audioconfig",#name,buf,m_inifile.Get()); }
 static void loadsave_config(int isload)
 {
+#ifndef NO_SUPPORT_ASIO
+
+  MYRI(asio_driver,asio_driver)
+  MYRI(asio_input[0],asio_input0)
+  MYRI(asio_input[1],asio_input1)
+  MYRI(asio_output[0],asio_output0)
+  MYRI(asio_output[1],asio_output1)
+
+#endif // NO_SUPPORT_ASIO
 #ifndef NO_SUPPORT_KS
 
   MYRI(mode,mode)
@@ -120,16 +131,6 @@ static void loadsave_config(int isload)
   MYRI(ks_numblocks,ks_numblocks)
 
 #endif // NO_SUPPORT_KS
-#ifndef NO_SUPPORT_WAVE
-
-  MYRI(waveout_srate,waveout_srate)
-  MYRI(waveout_bps,waveout_bps)
-  MYRI(waveout_device[0],waveout_devicein)
-  MYRI(waveout_device[1],waveout_deviceout)
-  MYRI(waveout_blocksize,waveout_blocksize)
-  MYRI(waveout_numblocks,waveout_numblocks)
-
-#endif // NO_SUPPORT_WAVE
 #ifndef NO_SUPPORT_DS
 
   MYRI(dsound_srate,dsound_srate)
@@ -146,15 +147,16 @@ static void loadsave_config(int isload)
   MYRI(dsound_numblocks,dsound_numblocks)
 
 #endif // NO_SUPPORT_DS
-#ifndef NO_SUPPORT_ASIO
+#ifndef NO_SUPPORT_WAVE
 
-  MYRI(asio_driver,asio_driver)
-  MYRI(asio_input[0],asio_input0)
-  MYRI(asio_input[1],asio_input1)
-  MYRI(asio_output[0],asio_output0)
-  MYRI(asio_output[1],asio_output1)
-#endif // NO_SUPPORT_ASIO
+  MYRI(waveout_srate,waveout_srate)
+  MYRI(waveout_bps,waveout_bps)
+  MYRI(waveout_device[0],waveout_devicein)
+  MYRI(waveout_device[1],waveout_deviceout)
+  MYRI(waveout_blocksize,waveout_blocksize)
+  MYRI(waveout_numblocks,waveout_numblocks)
 
+#endif // NO_SUPPORT_WAVE
 #undef MYRI
 }
 
@@ -165,12 +167,15 @@ audioStreamer *CreateConfiguredStreamer(char *inifile, int showcfg, HWND hwndPar
 {
 	extern void audiostream_onsamples(float **inbuf, int innch, float **outbuf, int outnch, int len, int srate);
 #else // KLUDGE_WINDOWS_NOCLIENT
-audioStreamer* CreateConfiguredStreamer(char *inifile , int showcfg , HWND hwndParent , SPLPROC audiostream_onsamples)
+audioStreamer* CreateConfiguredStreamer(char *ini_file                       ,
+                                        audioStreamer::WinAudioIf audio_if_n ,
+                                        SPLPROC audiostream_onsamples)
 {
 #endif // KLUDGE_WINDOWS_NOCLIENT
 
-  m_inifile.Set(inifile);
+  m_inifile.Set(ini_file);
   loadsave_config(1);
+  configdata.mode = audio_if_n ; // override - TODO: implement JUCE persistence
 #if WIN32_GUI
   if (showcfg)
   {
@@ -180,36 +185,7 @@ audioStreamer* CreateConfiguredStreamer(char *inifile , int showcfg , HWND hwndP
   }
 #endif // WIN32_GUI
 
-  if (configdata.mode == WINDOWS_AUDIO_KS)
-  {
-#ifndef NO_SUPPORT_KS
-    int nbufs=configdata.ks_numblocks;
-    int bufsize=configdata.ks_blocksize;
-    audioStreamer *p=create_audioStreamer_KS(configdata.ks_srate, configdata.ks_bps, &nbufs, &bufsize,audiostream_onsamples);
-
-    return p;
-#endif // NO_SUPPORT_KS
-  }
-  else if (configdata.mode == WINDOWS_AUDIO_DS)
-  {
-#ifndef NO_SUPPORT_DS
-    GUID bla[2];
-    int nbufs   = configdata.dsound_numblocks ;
-    int bufsize = configdata.dsound_blocksize ;
-    memcpy(bla , configdata.dsound_device , sizeof(bla)) ;
-    return create_audioStreamer_DS(configdata.dsound_srate , configdata.dsound_bps ,
-                                   bla , &nbufs , &bufsize , audiostream_onsamples) ;
-#endif // NO_SUPPORT_DS
-  }
-  else if (configdata.mode == WINDOWS_AUDIO_WAVE)
-  {
-#ifndef NO_SUPPORT_WAVE
-    int nbufs=configdata.waveout_numblocks;
-    int bufsize=configdata.waveout_blocksize;
-    return create_audioStreamer_WO(configdata.waveout_srate,configdata.waveout_bps,configdata.waveout_device,&nbufs,&bufsize,audiostream_onsamples);
-#endif // NO_SUPPORT_WAVE
-  }
-  else if (configdata.mode == WINDOWS_AUDIO_ASIO)
+  if (configdata.mode == audioStreamer::WINDOWS_AUDIO_ASIO)
   {
 #ifndef NO_SUPPORT_ASIO
       static char tmpbuf[64];
@@ -223,6 +199,35 @@ audioStreamer* CreateConfiguredStreamer(char *inifile , int showcfg , HWND hwndP
       char *dev_name_in=tmpbuf;
       return njasiodrv_create_asio_streamer(&dev_name_in,audiostream_onsamples);
 #endif // NO_SUPPORT_ASIO
+  }
+  else if (configdata.mode == audioStreamer::WINDOWS_AUDIO_KS)
+  {
+#ifndef NO_SUPPORT_KS
+    int nbufs=configdata.ks_numblocks;
+    int bufsize=configdata.ks_blocksize;
+    audioStreamer *p=create_audioStreamer_KS(configdata.ks_srate, configdata.ks_bps, &nbufs, &bufsize,audiostream_onsamples);
+
+    return p;
+#endif // NO_SUPPORT_KS
+  }
+  else if (configdata.mode == audioStreamer::WINDOWS_AUDIO_DS)
+  {
+#ifndef NO_SUPPORT_DS
+    GUID bla[2];
+    int nbufs   = configdata.dsound_numblocks ;
+    int bufsize = configdata.dsound_blocksize ;
+    memcpy(bla , configdata.dsound_device , sizeof(bla)) ;
+    return create_audioStreamer_DS(configdata.dsound_srate , configdata.dsound_bps ,
+                                   bla , &nbufs , &bufsize , audiostream_onsamples) ;
+#endif // NO_SUPPORT_DS
+  }
+  else if (configdata.mode == audioStreamer::WINDOWS_AUDIO_WAVE)
+  {
+#ifndef NO_SUPPORT_WAVE
+    int nbufs=configdata.waveout_numblocks;
+    int bufsize=configdata.waveout_blocksize;
+    return create_audioStreamer_WO(configdata.waveout_srate,configdata.waveout_bps,configdata.waveout_device,&nbufs,&bufsize,audiostream_onsamples);
+#endif // NO_SUPPORT_WAVE
   }
 
   return NULL ;

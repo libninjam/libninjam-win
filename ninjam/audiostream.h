@@ -37,14 +37,15 @@
 #ifndef _AUDIOSTREAM_H_
 #define _AUDIOSTREAM_H_
 
-#define NO_SUPPORT_KS
+//#define NO_SUPPORT_KS
 //#define NO_SUPPORT_DS
 #define NO_SUPPORT_ASIO
-#define WINDOWS_AUDIO_KS 0
+/*
+#define WINDOWS_AUDIO_KS 0 // TODO: enum
 #define WINDOWS_AUDIO_DS 1
 #define WINDOWS_AUDIO_WAVE 2
 #define WINDOWS_AUDIO_ASIO 3
-
+*/
 
 #ifdef _WIN32
 #  ifndef NO_SUPPORT_DS
@@ -57,46 +58,43 @@ class NJClient;
 
 class audioStreamer
 {
- public:
-  audioStreamer() { m_srate=48000; m_outnch=m_innch=2; m_bps=16; }
+public:
+
+  audioStreamer() { m_srate = 48000 ; m_outnch = m_innch = 2 ; m_bps = 16 ; }
   virtual ~audioStreamer() { }
 
-  virtual const char *GetChannelName(int idx)=0;
-  virtual const char *GetInputChannelName(int idx) {
-    return GetChannelName(idx);
-  }
-  virtual const char *GetOutputChannelName(int idx) {
-    return GetChannelName(idx);
-  }
-  virtual bool addInputChannel() {
-    return false;
-  }
-  virtual bool addOutputChannel() {
-    return false;
-  }
+  virtual const char* GetChannelName(int idx) = 0 ;
+  virtual const char* GetInputChannelName(int idx)  { return GetChannelName(idx) ; }
+  virtual const char* GetOutputChannelName(int idx) { return GetChannelName(idx) ; }
+  virtual       bool  addInputChannel()             { return false ; }
+  virtual       bool  addOutputChannel()            { return false ; }
 
-  int m_srate, m_innch, m_outnch, m_bps;
-};
+  int                 m_srate , m_innch , m_outnch , m_bps ;
+  static        enum  WinAudioIf { WINDOWS_AUDIO_ASIO , WINDOWS_AUDIO_KS   ,
+                                   WINDOWS_AUDIO_DS   , WINDOWS_AUDIO_WAVE } ;
+} ;
 
 
-typedef void (*SPLPROC)(float **inbuf, int innch, float **outbuf, int outnch, int len, int srate);
+typedef void (*SPLPROC)(float** inbuf , int innch , float** outbuf , int outnch ,
+                        int len , int srate) ;
 
 
 #ifdef _WIN32
+#  ifndef NO_SUPPORT_ASIO // TODO: ???
+#  endif // NO_SUPPORT_ASIO
+
 #  ifndef NO_SUPPORT_KS
 audioStreamer *create_audioStreamer_KS(int srate , int bps , int *nbufs ,
                                        int *bufsize , SPLPROC proc) ;
 #  endif // NO_SUPPORT_KS
-#  ifndef NO_SUPPORT_WAVE
-audioStreamer *create_audioStreamer_WO(int srate , int bps , int devs[2] ,
-                                       int *nbufs , int *bufsize , SPLPROC proc) ;
-#  endif // NO_SUPPORT_WAVE
 #  ifndef NO_SUPPORT_DS // TODO: broken
 audioStreamer *create_audioStreamer_DS(int srate , int bps , GUID devs[2] ,
                                        int *nbufs , int *bufsize , SPLPROC proc) ;
 #  endif // NO_SUPPORT_DS
-#  ifndef NO_SUPPORT_ASIO // TODO: ???
-#  endif // NO_SUPPORT_ASIO
+#  ifndef NO_SUPPORT_WAVE
+audioStreamer *create_audioStreamer_WO(int srate , int bps , int devs[2] ,
+                                       int *nbufs , int *bufsize , SPLPROC proc) ;
+#  endif // NO_SUPPORT_WAVE
 #else // _WIN32
 #  ifdef _MAC
 audioStreamer *create_audioStreamer_CoreAudio(char **dev, int srate, int nch, int bps, SPLPROC proc);

@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="&quot;C:\Program Files\Microsoft DirectX SDK (June 2010)\Lib\x86\dsound.lib&quot;"
+				AdditionalDependencies="&quot;C:\Program Files\Microsoft DirectX SDK (June 2010)\Lib\x86\dsound.lib&quot; Setupapi.lib"
 				IgnoreDefaultLibraryNames=""
 			/>
 			<Tool
@@ -122,7 +122,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="&quot;C:\Program Files\Microsoft DirectX SDK (June 2010)\Lib\x86\dsound.lib&quot;"
+				AdditionalDependencies="&quot;C:\Program Files\Microsoft DirectX SDK (June 2010)\Lib\x86\dsound.lib&quot; Setupapi.lib"
 				IgnoreDefaultLibraryNames=""
 			/>
 			<Tool
@@ -163,7 +163,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ninjam\KS\audfilter.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ninjam\audiostream.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ninjam\KS\audpin.h"
 				>
 			</File>
 			<File
@@ -172,6 +180,14 @@
 			</File>
 			<File
 				RelativePath=".\WDL\dirscan.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ninjam\KS\enum.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ninjam\KS\filter.h"
 				>
 			</File>
 			<File
@@ -187,7 +203,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ninjam\KS\irptgt.h"
+				>
+			</File>
+			<File
 				RelativePath=".\WDL\jnetlib\jnetlib.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ninjam\KS\kssample.h"
 				>
 			</File>
 			<File
@@ -223,7 +247,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ninjam\KS\node.h"
+				>
+			</File>
+			<File
 				RelativePath=".\WDL\pcmfmtcvt.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ninjam\KS\pin.h"
 				>
 			</File>
 			<File
@@ -244,6 +276,14 @@
 			</File>
 			<File
 				RelativePath=".\WDL\string.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ninjam\KS\tlist.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ninjam\KS\util.h"
 				>
 			</File>
 			<File
@@ -279,6 +319,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ninjam\KS\audfilter.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ninjam\audioconfig.cpp"
 				>
 			</File>
@@ -291,7 +335,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ninjam\KS\audpin.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\WDL\jnetlib\connection.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ninjam\KS\enum.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ninjam\KS\filter.cpp"
 				>
 			</File>
 			<File
@@ -300,6 +356,10 @@
 			</File>
 			<File
 				RelativePath=".\WDL\jnetlib\httpserv.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ninjam\KS\irptgt.cpp"
 				>
 			</File>
 			<File
@@ -323,11 +383,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ninjam\KS\node.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ninjam\KS\pin.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\WDL\rng.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\WDL\sha.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ninjam\KS\util-ks.cpp"
 				>
 			</File>
 			<File
