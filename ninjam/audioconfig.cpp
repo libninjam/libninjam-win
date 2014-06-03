@@ -18,24 +18,21 @@
 
 /*
 
-  This file has implementation for configuring audio devices UI and helper code to 
+  This file has implementation for configuring audio devices UI and helper code to
   actually create them (by calling create_audiostreamer_*) for the Windows client.
 
   The mac client has its own code for doing this.
 
 */
-#include "audiostream.h"
+
 #include <windows.h>
 #include <stdio.h>
-#ifndef NO_SUPPORT_DS
-#  include <dsound.h>
-#endif // NO_SUPPORT_DS
 #include "../WDL/string.h"
 #include "../WDL/ptrlist.h"
+#include "audiostream.h"
 #if WIN32_GUI
 #  include "resource.h"
 #endif // WIN32_GUI
-
 #ifndef NO_SUPPORT_ASIO
 #  include "../njasiodrv/njasiodrv_if.h"
 #endif // NO_SUPPORT_ASIO
@@ -50,7 +47,7 @@ struct
    int ks_blocksize;
    int ks_numblocks;
 
-   int waveout_srate; 
+   int waveout_srate;
    int waveout_bps;
    int waveout_device[2];
    int waveout_blocksize;
@@ -66,8 +63,20 @@ struct
    int asio_input[2];
    int asio_output[2];
 
-} configdata={
-  0, //default to KS
+} configdata = {
+#ifndef NO_SUPPORT_ASIO
+  WINDOWS_AUDIO_ASIO , // default to ASIO
+#else // NO_SUPPORT_ASIO
+#  ifndef NO_SUPPORT_KS
+  WINDOWS_AUDIO_KS ,   // default to KS
+#  else // NO_SUPPORT_KS
+#    ifndef NO_SUPPORT_DS
+  WINDOWS_AUDIO_DS ,   // default to DS
+#    else // NO_SUPPORT_DS
+  WINDOWS_AUDIO_WAVE , // default to WAVE
+#    endif // NO_SUPPORT_DS
+#  endif // NO_SUPPORT_ASIO
+#endif // NO_SUPPORT_KS
 
    48000, //ks_srate;
    16, //ks_bps;
@@ -75,7 +84,7 @@ struct
    512, //ks_blocksize;
    8, // ks_numblocks;
 
-   44100, //waveout_srate; 
+   44100, //waveout_srate;
    16, //waveout_bps;
    {-1,-1}, //waveout_device;
    4096, //waveout_blocksize;
@@ -113,7 +122,7 @@ static void loadsave_config(int isload)
 #endif // NO_SUPPORT_KS
 #ifndef NO_SUPPORT_WAVE
 
-  MYRI(waveout_srate,waveout_srate) 
+  MYRI(waveout_srate,waveout_srate)
   MYRI(waveout_bps,waveout_bps)
   MYRI(waveout_device[0],waveout_devicein)
   MYRI(waveout_device[1],waveout_deviceout)
@@ -152,26 +161,26 @@ static void loadsave_config(int isload)
 
 #define KLUDGE_WINDOWS_NOCLIENT
 #ifndef KLUDGE_WINDOWS_NOCLIENT
-//audioStreamer *CreateConfiguredStreamer(char *inifile, int showcfg, HWND hwndParent)
+audioStreamer *CreateConfiguredStreamer(char *inifile, int showcfg, HWND hwndParent)
 {
 	extern void audiostream_onsamples(float **inbuf, int innch, float **outbuf, int outnch, int len, int srate);
-#else // KLUDGE_WINDOWS_NOCLIENT 
-audioStreamer *CreateConfiguredStreamer(char *inifile , int showcfg , HWND hwndParent , SPLPROC audiostream_onsamples)
+#else // KLUDGE_WINDOWS_NOCLIENT
+audioStreamer* CreateConfiguredStreamer(char *inifile , int showcfg , HWND hwndParent , SPLPROC audiostream_onsamples)
 {
 #endif // KLUDGE_WINDOWS_NOCLIENT
 
   m_inifile.Set(inifile);
   loadsave_config(1);
+#if WIN32_GUI
   if (showcfg)
   {
-#if WIN32_GUI
     DialogBox(GetModuleHandle(NULL),MAKEINTRESOURCE(IDD_CONFIG),hwndParent,configDlgMainProc);
     loadsave_config(0);
     if (showcfg == -1) return NULL;
-#endif // WIN32_GUI
   }
+#endif // WIN32_GUI
 
-  if (configdata.mode == 0)
+  if (configdata.mode == WINDOWS_AUDIO_KS)
   {
 #ifndef NO_SUPPORT_KS
     int nbufs=configdata.ks_numblocks;
@@ -179,33 +188,28 @@ audioStreamer *CreateConfiguredStreamer(char *inifile , int showcfg , HWND hwndP
     audioStreamer *p=create_audioStreamer_KS(configdata.ks_srate, configdata.ks_bps, &nbufs, &bufsize,audiostream_onsamples);
 
     return p;
-#else // NO_SUPPORT_KS
-  return 0 ;
 #endif // NO_SUPPORT_KS
   }
-  else if (configdata.mode == 1)
+  else if (configdata.mode == WINDOWS_AUDIO_DS)
   {
 #ifndef NO_SUPPORT_DS
     GUID bla[2];
-    int nbufs=configdata.dsound_numblocks;
-    int bufsize=configdata.dsound_blocksize;
-    memcpy(bla,configdata.dsound_device,sizeof(bla));
-    return create_audioStreamer_DS(configdata.dsound_srate,configdata.dsound_bps,bla,&nbufs,&bufsize,audiostream_onsamples);
-#else // NO_SUPPORT_DS
-  return 0 ;
+    int nbufs   = configdata.dsound_numblocks ;
+    int bufsize = configdata.dsound_blocksize ;
+    memcpy(bla , configdata.dsound_device , sizeof(bla)) ;
+    return create_audioStreamer_DS(configdata.dsound_srate , configdata.dsound_bps ,
+                                   bla , &nbufs , &bufsize , audiostream_onsamples) ;
 #endif // NO_SUPPORT_DS
   }
-  else if (configdata.mode == 2)
+  else if (configdata.mode == WINDOWS_AUDIO_WAVE)
   {
 #ifndef NO_SUPPORT_WAVE
     int nbufs=configdata.waveout_numblocks;
     int bufsize=configdata.waveout_blocksize;
     return create_audioStreamer_WO(configdata.waveout_srate,configdata.waveout_bps,configdata.waveout_device,&nbufs,&bufsize,audiostream_onsamples);
-#else // NO_SUPPORT_WAVE
-  return 0 ;
 #endif // NO_SUPPORT_WAVE
   }
-  else if (configdata.mode == 3)
+  else if (configdata.mode == WINDOWS_AUDIO_ASIO)
   {
 #ifndef NO_SUPPORT_ASIO
       static char tmpbuf[64];
@@ -218,12 +222,10 @@ audioStreamer *CreateConfiguredStreamer(char *inifile , int showcfg , HWND hwndP
 
       char *dev_name_in=tmpbuf;
       return njasiodrv_create_asio_streamer(&dev_name_in,audiostream_onsamples);
-#else // NO_SUPPORT_ASIO
-  return 0 ;
 #endif // NO_SUPPORT_ASIO
   }
 
-  return 0;
+  return NULL ;
 }
 
 
@@ -278,7 +280,7 @@ BOOL CALLBACK cfgproc_waveout( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lP
     int bs=GetDlgItemInt(hwndDlg,IDC_EDIT3,&t,0);
 
     int bytesec=srate*2*(bps/8);
-    
+
     if (bytesec)
       wsprintf(buf,"(latency: %d ms)", (nb*bs*1000)/bytesec);
     else buf[0]=0;
@@ -305,19 +307,19 @@ BOOL CALLBACK cfgproc_waveout( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 
     a=GetDlgItemInt(hwndDlg,IDC_EDIT3,&t,0);
     if (t) configdata.waveout_blocksize=a;
-  
-    
-  
+
+
+
   }
   return 0;
 }
 
 
 BOOL WINAPI dscb(
-  LPGUID lpGuid,            
-  LPCSTR lpcstrDescription,  
-  LPCSTR lpcstrModule,       
-  LPVOID lpContext          
+  LPGUID lpGuid,
+  LPCSTR lpcstrDescription,
+  LPCSTR lpcstrModule,
+  LPVOID lpContext
 )
 {
   SendMessage((HWND)lpContext,WM_USER+0x100,666,(LPARAM)lpGuid);
@@ -391,7 +393,7 @@ BOOL CALLBACK cfgproc_dsound( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
     int bs=GetDlgItemInt(hwndDlg,IDC_EDIT3,&t,0);
 
     int bytesec=srate*2*(bps/8);
-    
+
     if (bytesec)
       wsprintf(buf,"(latency: %d ms)", (nb*bs*1000)/bytesec);
     else buf[0]=0;
@@ -418,8 +420,8 @@ BOOL CALLBACK cfgproc_dsound( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
     a=GetDlgItemInt(hwndDlg,IDC_EDIT3,&t,0);
     if (t) configdata.dsound_blocksize=a;
-      
-  
+
+
   }
   return 0;
 }
@@ -458,7 +460,7 @@ BOOL CALLBACK cfgproc_ks( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
     int bs=GetDlgItemInt(hwndDlg,IDC_EDIT3,&t,0);
 
     int bytesec=srate*2*(bps/8);
-    
+
     if (bytesec)
       wsprintf(buf,"(latency: %d ms)", (nb*bs*1000)/bytesec);
     else buf[0]=0;
@@ -485,7 +487,7 @@ BOOL CALLBACK cfgproc_ks( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
     a=GetDlgItemInt(hwndDlg,IDC_EDIT3,&t,0);
     if (t) configdata.ks_blocksize=a;
-  
+
   }
   return 0;
 }
@@ -497,7 +499,7 @@ BOOL CALLBACK cfgproc_asio( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
     return 1;
   }
   if (uMsg == WM_COMMAND && LOWORD(wParam) == IDOK)
-  {  
+  {
   }
   return 0;
 }
@@ -522,7 +524,7 @@ BOOL CALLBACK configDlgMainProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
         {
             SendDlgItemMessage(hwndDlg,IDC_COMBO1,CB_ADDSTRING,0,(LPARAM)labels[x]);
         }
-        
+
         child=0;
         if (cm  < 0 || cm >= NUM_ITEMS) cm=0;
         SendDlgItemMessage(hwndDlg,IDC_COMBO1,CB_SETCURSEL,(WPARAM)cm,0);
@@ -536,7 +538,7 @@ BOOL CALLBACK configDlgMainProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
           if (HIWORD(wParam) == CBN_SELCHANGE)
           {
             int y=SendDlgItemMessage(hwndDlg,IDC_COMBO1,CB_GETCURSEL,0,0);
-            if (y != CB_ERR) 
+            if (y != CB_ERR)
             {
               if (child && IsWindow(child)) DestroyWindow(child);
               child=0;
@@ -556,10 +558,10 @@ BOOL CALLBACK configDlgMainProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
         case IDOK:
           {
             int y;
-            if (child && IsWindow(child)) 
+            if (child && IsWindow(child))
               SendMessage(child,WM_COMMAND,IDOK,0);
             y=SendDlgItemMessage(hwndDlg,IDC_COMBO1,CB_GETCURSEL,0,0);
-            if (y != CB_ERR) 
+            if (y != CB_ERR)
             {
               configdata.mode=y;
             }

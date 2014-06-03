@@ -33,7 +33,6 @@
 #include <windows.h>
 #include <mmsystem.h>
 #include "../WDL/pcmfmtcvt.h"
-
 #include "../WDL/ptrlist.h"
 #include "audiostream.h"
 
