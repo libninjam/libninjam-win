@@ -55,8 +55,6 @@ class audioStreamer_int
 };
 
 
-
-
 class audioStreamer_waveOut : public audioStreamer_int
 {
 	public:
@@ -78,9 +76,6 @@ class audioStreamer_waveOut : public audioStreamer_int
    
 		int m_whichbuf; // used only for read mode
 };
-
-
-
 
 
 //////////////////////////////
@@ -304,9 +299,6 @@ int audioStreamer_waveOut::Write(char *buf, int len) // returns 0 on success
 }
 
 
-
-
-
 class audioStreamer_win32_asiosim : public audioStreamer
 {
 	public:
@@ -396,6 +388,7 @@ void audioStreamer_win32_asiosim::tp()
 }
 
 
+#ifndef NO_SUPPORT_DS
 #include <dsound.h>
 
 class audioStreamer_ds : public audioStreamer_int
@@ -427,7 +420,6 @@ class audioStreamer_ds : public audioStreamer_int
 
     // fucko: finish dsound implementation
 };
-
 
 audioStreamer_ds::audioStreamer_ds()
 {
@@ -652,6 +644,7 @@ int audioStreamer_ds::Write(char *buf, int len) // returns 0 on success
   return 0;
 }
 
+#endif // NO_SUPPORT_DS
 
 
 audioStreamer *create_audioStreamer_WO(int srate, int bps, int devs[2], int *nbufs, int *bufsize, SPLPROC proc)
@@ -674,6 +667,8 @@ audioStreamer *create_audioStreamer_WO(int srate, int bps, int devs[2], int *nbu
   return new audioStreamer_win32_asiosim(in,out,*bufsize,srate,bps,proc);
 }
 
+#ifndef NO_SUPPORT_DS
+
 audioStreamer *create_audioStreamer_DS(int srate, int bps, GUID devs[2], int *nbufs, int *bufsize, SPLPROC proc)
 {
   audioStreamer_ds *in=new audioStreamer_ds();
@@ -692,3 +687,5 @@ audioStreamer *create_audioStreamer_DS(int srate, int bps, GUID devs[2], int *nb
 
   return new audioStreamer_win32_asiosim(in,out,*bufsize,srate,bps,proc);
 }
+
+#endif // NO_SUPPORT_DS

@@ -29,14 +29,9 @@
 #ifndef _NETMSG_H_
 #define _NETMSG_H_
 
-#define KLUDGE
-#ifdef KLUDGE
-#include "C:\src\ninjam-0.06+svn121\WDL\queue.h"
-#include "C:\src\ninjam-0.06+svn121\WDL\jnetlib\jnetlib.h"
-#else // KLUDDGE
+
 #include <WDL/queue.h>
 #include <WDL/jnetlib/jnetlib.h>
-#endif // KLUDDGE
 
 #define NET_MESSAGE_MAX_SIZE 16384
 

@@ -58,14 +58,6 @@
 #ifndef _NJCLIENT_H_
 #define _NJCLIENT_H_
 
-#define KLUDGE
-#ifdef KLUDGE
-#ifndef _WIN32
-#define _WIN32
-#endif
-#endif // KLUDGE
-
-
 #ifdef _WIN32
 #include <windows.h>
 #else
@@ -76,17 +68,6 @@
 #include <time.h>
 
 
-#ifdef KLUDGE
-#  ifdef _WIN32
-#    include "C:\src\ninjam-0.06+svn121\WDL\string.h"
-#    include "C:\src\ninjam-0.06+svn121\WDL\ptrlist.h"
-#    include "C:\src\ninjam-0.06+svn121\WDL\jnetlib\jnetlib.h"
-#    include "C:\src\ninjam-0.06+svn121\WDL\sha.h"
-#    include "C:\src\ninjam-0.06+svn121\WDL\rng.h"
-#    include "C:\src\ninjam-0.06+svn121\WDL\mutex.h"
-#    include "C:\src\ninjam-0.06+svn121\WDL\wavwrite.h"
-#  endif // _WIN32
-#else // KLUDGE
 #include <WDL/string.h>
 #include <WDL/ptrlist.h>
 #include <WDL/jnetlib/jnetlib.h>
@@ -94,8 +75,6 @@
 #include <WDL/rng.h>
 #include <WDL/mutex.h>
 #include <WDL/wavwrite.h>
-#endif // KLUDGE
-
 
 #include <set>
 #include <string>

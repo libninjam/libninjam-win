@@ -44,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\include;&quot;C:\src\libninjam\libogg-1.3.0\include&quot;"
+				AdditionalIncludeDirectories="&quot;..\..\..\..\..\libogg-1.3.0\include&quot;;..\..\..\..\include;$(NOINHERIT)"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -71,6 +71,8 @@
 				OutputFile="$(OutDir)/vorbisdec_static.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;..\..\..\..\libogg\win32\VS2008\$(PlatformName)\$(ConfigurationName)&quot;;&quot;..\$(PlatformName)\$(ConfigurationName)&quot;"
+				IgnoreAllDefaultLibraries="false"
+				IgnoreDefaultLibraryNames="LIBCMT.lib"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/vorbisdec.pdb"
 				SubSystem="1"
@@ -128,7 +130,7 @@
 				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\..\..\include;..\..\..\..\libogg\include"
+				AdditionalIncludeDirectories="&quot;..\..\..\..\..\libogg-1.3.0\include&quot;;..\..\..\..\include;$(NOINHERIT)"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				StringPooling="true"
 				ExceptionHandling="0"
@@ -156,6 +158,8 @@
 				OutputFile="$(OutDir)/vorbisdec_static.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;..\..\..\..\libogg\win32\VS2008\$(PlatformName)\$(ConfigurationName)&quot;;&quot;..\$(PlatformName)\$(ConfigurationName)&quot;"
+				IgnoreAllDefaultLibraries="false"
+				IgnoreDefaultLibraryNames="LIBCMT.lib"
 				GenerateDebugInformation="false"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -364,7 +368,7 @@
 	<References>
 		<ProjectReference
 			ReferencedProjectIdentifier="{3A214E06-B95E-4D61-A291-1F8DF2EC10FD}"
-			RelativePathToProject=".\libvorbis\libvorbis_static.vcproj"
+			RelativePathToProject=".\libvorbis-1.3.3\win32\VS2008\libvorbis\libvorbis_static.vcproj"
 		/>
 	</References>
 	<Files>

@@ -37,6 +37,11 @@
 #ifndef _AUDIOSTREAM_H_
 #define _AUDIOSTREAM_H_
 
+#define NO_SUPPORT_KS
+#define NO_SUPPORT_DS
+#define NO_SUPPORT_ASIO
+
+
 class NJClient;
 
 class audioStreamer
