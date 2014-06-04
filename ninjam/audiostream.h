@@ -80,6 +80,8 @@ typedef void (*SPLPROC)(float** inbuf , int innch , float** outbuf , int outnch 
 
 
 #ifdef _WIN32
+audioStreamer* CreateConfiguredStreamer(char *ini_file , audioStreamer::WinAudioIf audio_if_n , SPLPROC audiostream_onsamples) ;
+
 #  ifndef NO_SUPPORT_ASIO // TODO: ???
 #  endif // NO_SUPPORT_ASIO
 
