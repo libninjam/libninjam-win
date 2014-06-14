@@ -160,8 +160,6 @@ static void loadsave_config(int isload)
 #undef MYRI
 }
 
-
-#define KLUDGE_WINDOWS_NOCLIENT
 #ifndef KLUDGE_WINDOWS_NOCLIENT
 audioStreamer *CreateConfiguredStreamer(char *inifile, int showcfg, HWND hwndParent)
 {
@@ -173,9 +171,10 @@ audioStreamer* CreateConfiguredStreamer(char *ini_file                       ,
 {
 #endif // KLUDGE_WINDOWS_NOCLIENT
 
+  if (!ini_file || !ini_file[0]) ini_file = "libninjam.ini" ;
   m_inifile.Set(ini_file);
   loadsave_config(1);
-  configdata.mode = audio_if_n ; // override - TODO: implement JUCE persistence
+  configdata.mode = audio_if_n ; // override - TODO: re-implement this file in the client
 #if WIN32_GUI
   if (showcfg)
   {
@@ -185,49 +184,58 @@ audioStreamer* CreateConfiguredStreamer(char *ini_file                       ,
   }
 #endif // WIN32_GUI
 
-  if (configdata.mode == audioStreamer::WINDOWS_AUDIO_ASIO)
+  switch (configdata.mode)
   {
-#ifndef NO_SUPPORT_ASIO
-      static char tmpbuf[64];
-      wsprintf(tmpbuf,"%d:%d,%d:%d,%d",configdata.asio_driver,
-      configdata.asio_input[0],
-      configdata.asio_input[1],
-      configdata.asio_output[0],
-      configdata.asio_output[1]
-      );
+    case audioStreamer::WINDOWS_AUDIO_ASIO:
+    {
+  #ifndef NO_SUPPORT_ASIO
+        static char tmpbuf[64];
+        wsprintf(tmpbuf,"%d:%d,%d:%d,%d",configdata.asio_driver,
+        configdata.asio_input[0],
+        configdata.asio_input[1],
+        configdata.asio_output[0],
+        configdata.asio_output[1]
+        );
 
-      char *dev_name_in=tmpbuf;
-      return njasiodrv_create_asio_streamer(&dev_name_in,audiostream_onsamples);
-#endif // NO_SUPPORT_ASIO
-  }
-  else if (configdata.mode == audioStreamer::WINDOWS_AUDIO_KS)
-  {
-#ifndef NO_SUPPORT_KS
-    int nbufs=configdata.ks_numblocks;
-    int bufsize=configdata.ks_blocksize;
-    audioStreamer *p=create_audioStreamer_KS(configdata.ks_srate, configdata.ks_bps, &nbufs, &bufsize,audiostream_onsamples);
+        char *dev_name_in=tmpbuf;
+        audioStreamer* asio = njasiodrv_create_asio_streamer(&dev_name_in,audiostream_onsamples);
 
-    return p;
-#endif // NO_SUPPORT_KS
-  }
-  else if (configdata.mode == audioStreamer::WINDOWS_AUDIO_DS)
-  {
-#ifndef NO_SUPPORT_DS
-    GUID bla[2];
-    int nbufs   = configdata.dsound_numblocks ;
-    int bufsize = configdata.dsound_blocksize ;
-    memcpy(bla , configdata.dsound_device , sizeof(bla)) ;
-    return create_audioStreamer_DS(configdata.dsound_srate , configdata.dsound_bps ,
-                                   bla , &nbufs , &bufsize , audiostream_onsamples) ;
-#endif // NO_SUPPORT_DS
-  }
-  else if (configdata.mode == audioStreamer::WINDOWS_AUDIO_WAVE)
-  {
-#ifndef NO_SUPPORT_WAVE
-    int nbufs=configdata.waveout_numblocks;
-    int bufsize=configdata.waveout_blocksize;
-    return create_audioStreamer_WO(configdata.waveout_srate,configdata.waveout_bps,configdata.waveout_device,&nbufs,&bufsize,audiostream_onsamples);
-#endif // NO_SUPPORT_WAVE
+        if (asio) { return asio ; break ; }
+  #endif // NO_SUPPORT_ASIO
+    }
+    case audioStreamer::WINDOWS_AUDIO_KS:
+    {
+  #ifndef NO_SUPPORT_KS
+      int nbufs=configdata.ks_numblocks;
+      int bufsize=configdata.ks_blocksize;
+      audioStreamer *ks=create_audioStreamer_KS(configdata.ks_srate, configdata.ks_bps, &nbufs, &bufsize,audiostream_onsamples);
+
+      if (ks) { return ks ; break ; }
+  #endif // NO_SUPPORT_KS
+    }
+    case audioStreamer::WINDOWS_AUDIO_DS:
+    {
+  #ifndef NO_SUPPORT_DS
+      GUID bla[2];
+      int nbufs   = configdata.dsound_numblocks ;
+      int bufsize = configdata.dsound_blocksize ;
+      memcpy(bla , configdata.dsound_device , sizeof(bla)) ;
+      audioStreamer* ds = create_audioStreamer_DS(configdata.dsound_srate , configdata.dsound_bps ,
+                                                  bla , &nbufs , &bufsize , audiostream_onsamples) ;
+      if (ds) { return ds ; break ; }
+  #endif // NO_SUPPORT_DS
+    }
+    case audioStreamer::WINDOWS_AUDIO_WAVE:
+    default:
+    {
+  #ifndef NO_SUPPORT_WAVE
+      int nbufs=configdata.waveout_numblocks;
+      int bufsize=configdata.waveout_blocksize;
+      audioStreamer* wave = create_audioStreamer_WO(configdata.waveout_srate,configdata.waveout_bps,configdata.waveout_device,&nbufs,&bufsize,audiostream_onsamples);
+
+      if (wave) { return wave ; break ; }
+  #endif // NO_SUPPORT_WAVE
+    }
   }
 
   return NULL ;
