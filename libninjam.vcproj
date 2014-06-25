@@ -283,11 +283,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ninjam\KS\util.h"
+				RelativePath=".\WDL\jnetlib\util.h"
 				>
 			</File>
 			<File
-				RelativePath=".\WDL\jnetlib\util.h"
+				RelativePath=".\ninjam\KS\util.h"
 				>
 			</File>
 			<File
@@ -320,10 +320,6 @@
 			</File>
 			<File
 				RelativePath=".\ninjam\KS\audfilter.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ninjam\audioconfig.cpp"
 				>
 			</File>
 			<File

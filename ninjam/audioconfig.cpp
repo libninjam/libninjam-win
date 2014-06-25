@@ -160,16 +160,16 @@ static void loadsave_config(int isload)
 #undef MYRI
 }
 
-#ifndef KLUDGE_WINDOWS_NOCLIENT
+#ifndef LIBNINJAM_IS_LIBRARY
 audioStreamer *CreateConfiguredStreamer(char *inifile, int showcfg, HWND hwndParent)
 {
 	extern void audiostream_onsamples(float **inbuf, int innch, float **outbuf, int outnch, int len, int srate);
-#else // KLUDGE_WINDOWS_NOCLIENT
+#else // LIBNINJAM_IS_LIBRARY
 audioStreamer* CreateConfiguredStreamer(char *ini_file                       ,
                                         audioStreamer::WinAudioIf audio_if_n ,
                                         SPLPROC audiostream_onsamples)
 {
-#endif // KLUDGE_WINDOWS_NOCLIENT
+#endif // LIBNINJAM_IS_LIBRARY
 
   if (!ini_file || !ini_file[0]) ini_file = "libninjam.ini" ;
   m_inifile.Set(ini_file);
