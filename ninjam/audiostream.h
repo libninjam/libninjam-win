@@ -37,17 +37,9 @@
 #ifndef _AUDIOSTREAM_H_
 #define _AUDIOSTREAM_H_
 
-#define AUDIOCONFIG_CPP_NYI_TODO
-#define KLUDGE_WINDOWS_NOCLIENT
-//#define NO_SUPPORT_KS
-//#define NO_SUPPORT_DS
-#define NO_SUPPORT_ASIO
-/*
-#define WINDOWS_AUDIO_KS 0 // TODO: enum
-#define WINDOWS_AUDIO_DS 1
-#define WINDOWS_AUDIO_WAVE 2
-#define WINDOWS_AUDIO_ASIO 3
-*/
+#define NO_SUPPORT_ASIO // DEBUG
+//#define NO_SUPPORT_KS // DEBUG
+//#define NO_SUPPORT_DS // DEBUG
 
 #ifdef _WIN32
 #  ifndef NO_SUPPORT_DS
@@ -56,7 +48,8 @@
 #endif // _WIN32
 
 
-class NJClient;
+class NJClient ;
+
 
 class audioStreamer
 {
@@ -82,8 +75,6 @@ typedef void (*SPLPROC)(float** inbuf , int innch , float** outbuf , int outnch 
 
 
 #ifdef _WIN32
-audioStreamer* CreateConfiguredStreamer(char *ini_file , audioStreamer::WinAudioIf audio_if_n , SPLPROC audiostream_onsamples) ;
-
 #  ifndef NO_SUPPORT_ASIO // TODO: ???
 #  endif // NO_SUPPORT_ASIO
 
