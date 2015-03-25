@@ -99,6 +99,37 @@ public:
   NJClient();
   ~NJClient();
 
+
+  /* constants and enums */
+
+  // MAX_USERNAME_LEN is unused by libninjam - it is provided as a convenience to clients
+  //   TODO: have yet to locate the code that handles username validation
+  //   but experiments have shown usernames are trunctuated to 16 chars
+  //   with valid chars including [a-z] , [0-9] , '-' , '_'
+  static const size_t MAX_USERNAME_LEN = 16 ;
+
+  // MAX_CHANNELNAME_LEN is unused by libninjam - it is provided as a convenience to clients
+  //   TODO: have yet to locate the code that handles channelname validation
+  //   but experiments have shown channelnames may be absurdly long (tested to 2000 chars)
+  static const size_t MAX_CHANNELNAME_LEN = 256 ;
+
+  enum ConnectionStatus { NJC_STATUS_DISCONNECTED = -3 , NJC_STATUS_INVALIDAUTH = -2 ,
+                          NJC_STATUS_CANTCONNECT  = -1 , NJC_STATUS_OK          =  0 ,
+                          NJC_STATUS_PRECONNECT                                      } ;
+
+  enum SubscribeMode    { SUBSCRIBE_NONE  , SUBSCRIBE_ALL  ,
+                          SUBSCRIBE_ALLOW , SUBSCRIBE_DENY } ;
+
+  enum SaveMultitrack   { SAVE_AUDIO_DELETE_ASAP = -1 , SAVE_AUDIO_NONE         = 0 ,
+                          SAVE_MULTITRACK_OGG         , SAVE_MULTITRACK_OGG_AND_WAV } ;
+
+  enum SaveMixdown      { SAVE_MIXDOWN_NONE , SAVE_MIXDOWN_OGG         ,
+                          SAVE_MIXDOWN_WAV  , SAVE_MIXDOWN_OGG_AND_WAV } ;
+
+  enum DebugLevel       { DEBUG_LEVEL_SILENT  , DEBUG_LEVEL_AUDIO ,
+                          DEBUG_LEVEL_NETWORK , DEBUG_LEVEL_TRACE } ;
+
+
   void Connect(const char *host, const char *user, const char *pass);
   void Disconnect();
 
@@ -212,46 +243,9 @@ public:
   int (*ChannelMixer)(int user32, float **inbuf, int in_offset, int innch, int chidx, float *outbuf, int len);
   int ChannelMixer_User32;
 
-
-  /* client helpers */
-
-  // NOTE: these are provided as a convenience to clients but are unused by libninjam
-  // TODO: most of the LinJam "NJClient config helpers" could be here
+  // convenience methods
   char *GetLocalChannelName(int channel_idx)
   { return GetLocalChannelInfo(channel_idx , NULL , NULL , NULL) ; }
-
-
-  /* constants and enums */
-
-  // NOTE: these are provided as a convenience to clients but most are unused by libninjam
-  // TODO: have libninjam actually refer to these instead of magic numbers
-  // TODO: have yet to locate the code that handles username validation
-  //           but experiments have shown usernames are trunctuated to 16 chars
-  //           and valid chars include [a-z] , [0-9] , '-' , '_'
-  // TODO: have yet to locate the code that handles channelname validation
-  //           but experiments have shown channelnames may be absurdly long (> 2000 chars)
-  // TODO: ideally SaveSession enum would describe as a bitfield just as SaveMixdown
-  //           like: TEMP = 256 , NONE = 0 , OGG = 1 , WAV = 2 , OGG_AND_WAV = 3
-  //           but for SAVE_TEMP (delete ASAP) is currently hard coded NJClient
-  //           and save wav only is not implemented
-  static const size_t MAX_USERNAME_LEN    = 16 ;
-  static const size_t MAX_CHANNELNAME_LEN = 256 ;
-
-  enum ConnectionStatus { NJC_STATUS_DISCONNECTED = -3 , NJC_STATUS_INVALIDAUTH = -2 ,
-                          NJC_STATUS_CANTCONNECT  = -1 , NJC_STATUS_OK          =  0 ,
-                          NJC_STATUS_PRECONNECT                                      } ;
-
-  enum SubscribeMode    { SUBSCRIBE_NONE  , SUBSCRIBE_ALL  ,
-                          SUBSCRIBE_ALLOW , SUBSCRIBE_DENY } ;
-
-  enum SaveMultitrack   { SAVE_TEMP = -1 , SAVE_NONE    = 0 ,
-                          SAVE_OGG       , SAVE_OGG_AND_WAV } ;
-
-  enum SaveMixdown      { MIXDOWN_NONE , MIXDOWN_OGG         ,
-                          MIXDOWN_WAV  , MIXDOWN_OGG_AND_WAV } ;
-
-  enum DebugLevel       { DEBUG_SILENT  , DEBUG_AUDIO ,
-                          DEBUG_NETWORK , DEBUG_TRACE } ;
 
 
 protected:

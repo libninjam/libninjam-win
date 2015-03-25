@@ -19,16 +19,16 @@
 
 /*
 
-  This header is used by NINJAM clients to define an abstract audio streamer interface, as
-  well as declare functions for creating instances of these audio streamers.
+  This header is used by NINJAM clients to define an abstract audio streamer interface,
+  as well as declare functions for creating instances of these audio streamers.
 
-  On Windows, these functions are primarily called from audioconfig.cpp, and on
-  the Cocoa client the function is called from Controller.mm.
+  On the legacy Win32 client, these functions are primarily called from audioconfig.cpp,
+  and on the legacy Cocoa client the function is called from Controller.mm.
+  Clients targeting other platforms would call these directly.
 
   The basic structure is:
-
-  The client runs, creates an audiostreamer (below), giving it a SPLPROC, which is it's
-  own function that then in turn calls NJClient::AudioProc.
+    The client runs, creates an audioStreamer (below), giving it a SPLPROC,
+    which is a client owned function that then in turn calls NJClient::AudioProc.
 
   But this is just the interface declaration etc.
 
@@ -37,9 +37,18 @@
 #ifndef _AUDIOSTREAM_H_
 #define _AUDIOSTREAM_H_
 
-#define NO_SUPPORT_ASIO // DEBUG
-//#define NO_SUPPORT_KS // DEBUG
-//#define NO_SUPPORT_DS // DEBUG
+
+/*\ windows audio API support
+|*| in order to disable support for individual audio APIs
+|*|    the following switches may be defined prior to inclusion
+|*| e.g.
+|*|   #define NO_SUPPORT_ASIO
+|*|   #define NO_SUPPORT_KS
+|*|   #define NO_SUPPORT_DS
+|*|   #define NO_SUPPORT_WAVE
+|*|   #include <ninjam/audiostream.h>
+\*/
+
 
 #ifdef _WIN32
 #  ifndef NO_SUPPORT_DS
@@ -55,49 +64,93 @@ class audioStreamer
 {
 public:
 
-  audioStreamer() { m_srate = 48000 ; m_outnch = m_innch = 2 ; m_bps = 16 ; }
+  audioStreamer()
+  {
+    m_innch  = DEFAULT_N_INPUTS ;
+    m_outnch = DEFAULT_N_OUTPUTS ;
+    m_bps    = DEFAULT_BITDEPTH ;
+    m_srate  = DEFAULT_SAMPLERATE ;
+  }
   virtual ~audioStreamer() { }
 
-  virtual const char* GetChannelName(int idx) = 0 ;
+  virtual const char* GetChannelName(int idx)       = 0 ;
   virtual const char* GetInputChannelName(int idx)  { return GetChannelName(idx) ; }
   virtual const char* GetOutputChannelName(int idx) { return GetChannelName(idx) ; }
   virtual       bool  addInputChannel()             { return false ; }
   virtual       bool  addOutputChannel()            { return false ; }
 
-  int                 m_srate , m_innch , m_outnch , m_bps ;
-  static        enum  WinAudioIf { WINDOWS_AUDIO_ASIO , WINDOWS_AUDIO_KS   ,
-                                   WINDOWS_AUDIO_DS   , WINDOWS_AUDIO_WAVE } ;
+
+  int m_srate ;
+  int m_innch ;
+  int m_outnch ;
+  int m_bps ;
+
+
+  enum WinApi { WIN_AUDIO_ASIO , WIN_AUDIO_KS   ,
+                WIN_AUDIO_DS   , WIN_AUDIO_WAVE } ;
+  enum NixApi { NIX_AUDIO_JACK , NIX_AUDIO_ALSA } ;
+
+  static const int DEFAULT_N_INPUTS   = 2 ;
+  static const int DEFAULT_N_OUTPUTS  = 2 ;
+  static const int DEFAULT_BITDEPTH   = 16 ;
+  static const int DEFAULT_SAMPLERATE = 48000 ;
 } ;
 
 
-typedef void (*SPLPROC)(float** inbuf , int innch , float** outbuf , int outnch ,
-                        int len , int srate) ;
+typedef void (*SPLPROC)(float** input_buffer  , int n_input_channels  ,
+                        float** output_buffer , int n_output_channels ,
+                        int     n_samples     , int sample_rate       ) ;
 
 
 #ifdef _WIN32
-#  ifndef NO_SUPPORT_ASIO // TODO: ???
+#  ifndef NO_SUPPORT_ASIO
+bool           is_njasiodrv_avail() ;
+audioStreamer* create_audioStreamer_ASIO_DLL(SPLPROC on_samples_proc , int asio_driver_n ,
+                                             int     in_channel1_n   , int in_channel2_n ,
+                                             int     out_channel1_n  , int out_channel2_n) ;
 #  endif // NO_SUPPORT_ASIO
 
 #  ifndef NO_SUPPORT_KS
-audioStreamer *create_audioStreamer_KS(int srate , int bps , int *nbufs ,
-                                       int *bufsize , SPLPROC proc) ;
+audioStreamer* create_audioStreamer_KS(int  sample_rate     , int     bit_depth      ,
+                                                              int*    n_buffers      ,
+                                       int* buffer_size     , SPLPROC on_samples_proc) ;
 #  endif // NO_SUPPORT_KS
-#  ifndef NO_SUPPORT_DS // TODO: broken
-audioStreamer *create_audioStreamer_DS(int srate , int bps , GUID devs[2] ,
-                                       int *nbufs , int *bufsize , SPLPROC proc) ;
+
+#  ifndef NO_SUPPORT_DS
+audioStreamer* create_audioStreamer_DS(int  sample_rate     , int     bit_depth      ,
+                                       GUID device_guids[2] , int*    n_buffers      ,
+                                       int* buffer_size     , SPLPROC on_samples_proc) ;
 #  endif // NO_SUPPORT_DS
+
 #  ifndef NO_SUPPORT_WAVE
-audioStreamer *create_audioStreamer_WO(int srate , int bps , int devs[2] ,
-                                       int *nbufs , int *bufsize , SPLPROC proc) ;
+audioStreamer* create_audioStreamer_WO(int  sample_rate     , int     bit_depth      ,
+                                       int  device_ns[2]    , int*    n_buffers      ,
+                                       int* buffer_size     , SPLPROC on_samples_proc) ;
 #  endif // NO_SUPPORT_WAVE
+
 #else // _WIN32
+
 #  ifdef _MAC
-audioStreamer *create_audioStreamer_CoreAudio(char **dev, int srate, int nch, int bps, SPLPROC proc);
+audioStreamer* create_audioStreamer_CoreAudio(char**  audio_devices   , int sample_rate ,
+                                              int     n_channels      , int bit_depth   ,
+                                              SPLPROC on_samples_proc                   ) ;
 #  else // _MAC
-audioStreamer *create_audioStreamer_JACK(const char* client_name ,
-                                         int n_input_channels , int n_output_channels ,
-                                         SPLPROC proc , NJClient *njclient) ;
-audioStreamer *create_audioStreamer_ALSA(char *cfg , SPLPROC proc) ;
+
+audioStreamer* create_audioStreamer_JACK(const char* jack_client_name  ,
+                                         int         n_input_channels  ,
+                                         int         n_output_channels ,
+                                         SPLPROC     on_samples_proc   ,
+                                         NJClient*   a_NJClient        ) ;
+audioStreamer* create_audioStreamer_ALSA(char* cli_args , SPLPROC on_samples_proc) ;
+audioStreamer* create_audioStreamer_ALSA(SPLPROC     on_samples_proc          ,
+                                         const char* input_device  = "hw:0,0" ,
+                                         const char* output_device = "hw:0,0" ,
+                                         int         n_channels    = 2        ,
+                                         int         sample_rate   = 44100    ,
+                                         int         bit_depth     = 16       ,
+                                         int         n_buffers     = 16       ,
+                                         int         buffer_size   = 1024     ) ;
+
 #  endif // _MAC
 #endif // _WIN32
 

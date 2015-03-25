@@ -323,6 +323,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ninjam\audiostream_asio_if.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ninjam\audiostream_ks.cpp"
 				>
 			</File>

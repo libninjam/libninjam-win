@@ -505,5 +505,4 @@ int audioStreamer_KS::Write(char *buf, int len) // returns 0 on success
   return 0;
 }
 
-#endif
-
+#endif // NO_SUPPORT_KS

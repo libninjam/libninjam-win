@@ -306,6 +306,8 @@ BOOL TList<T>::GetNext(LISTPOS& rPos, T**ppNext) const
         return( FALSE );
     }
 
+    // NOTE: you may encounter an access violation here while running debug build
+    //       if sound card is already in use - release build throws no exception
     rPos = reinterpret_cast<LISTPOS>(pItem->pNext);
     *ppNext = pItem->pData;
 
