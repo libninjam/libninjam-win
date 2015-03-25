@@ -225,17 +225,10 @@ public:
 
   // NOTE: these are provided as a convenience to clients but most are unused by libninjam
   // TODO: have libninjam actually refer to these instead of magic numbers
-  // TODO: have yet to locate the code that handles username validation
-  //           but experiments have shown usernames are trunctuated to 16 chars
-  //           and valid chars include [a-z] , [0-9] , '-' , '_'
-  // TODO: have yet to locate the code that handles channelname validation
-  //           but experiments have shown channelnames may be absurdly long (> 2000 chars)
   // TODO: ideally SaveSession enum would describe as a bitfield just as SaveMixdown
   //           like: TEMP = 256 , NONE = 0 , OGG = 1 , WAV = 2 , OGG_AND_WAV = 3
   //           but for SAVE_TEMP (delete ASAP) is currently hard coded NJClient
   //           and save wav only is not implemented
-  static const size_t MAX_USERNAME_LEN    = 16 ;
-  static const size_t MAX_CHANNELNAME_LEN = 256 ;
 
   enum ConnectionStatus { NJC_STATUS_DISCONNECTED = -3 , NJC_STATUS_INVALIDAUTH = -2 ,
                           NJC_STATUS_CANTCONNECT  = -1 , NJC_STATUS_OK          =  0 ,

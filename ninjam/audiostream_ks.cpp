@@ -66,6 +66,9 @@ static void myPrintf(char *s, ...)
 
 #include "ks/kssample.h"
 
+
+/* audioStreamer_KS class */
+
 class audioStreamer_KS
 {
 	public:
@@ -104,115 +107,6 @@ class audioStreamer_KS
     DATA_PACKET *Packets;
 
 };
-
-
-class audioStreamer_KS_asiosim : public audioStreamer
-{
-	public:
-		audioStreamer_KS_asiosim(audioStreamer_KS *i, audioStreamer_KS *o, int bufsize, int srate, int bps, SPLPROC proc)
-    {
-      m_splproc=proc;
-      in=i;
-      out=o;
-      DWORD id;
-      m_bps=bps;
-      m_innch=m_outnch=2;
-      m_bps=bps;
-      m_srate=srate;
-      m_done=0;
-      m_buf=(char *)malloc(bufsize);
-      m_bufsize=bufsize;
-
-      m_procbuf=(float *)malloc((bufsize*64)/bps);// allocated 2x, input and output
-      hThread=CreateThread(NULL,0,threadProc,(LPVOID)this,0,&id);
-      SetThreadPriority(hThread,THREAD_PRIORITY_HIGHEST);
-    }
-		~audioStreamer_KS_asiosim()
-    {
-      m_done=1;
-      WaitForSingleObject(hThread,INFINITE);
-      CloseHandle(hThread);
-      delete in;
-      delete out;
-      free(m_buf);
-      free(m_procbuf);
-    }
-
-    const char *GetChannelName(int idx)
-    {
-      if (idx == 0) return "KS Left";
-      if (idx == 1) return "KS Right";
-      return NULL;
-    }
-
-	private:
-    void tp();
-    static DWORD WINAPI threadProc(LPVOID p)
-    {
-      audioStreamer_KS_asiosim *t=(audioStreamer_KS_asiosim*)p;
-      t->tp();
-      return 0;
-    }
-    audioStreamer_KS *in, *out;
-    
-    HANDLE hThread;
-    int m_done,m_bufsize;
-    char *m_buf;
-    float *m_procbuf;
-
-    SPLPROC m_splproc;
-};
-
-
-void audioStreamer_KS_asiosim::tp()
-{
-  while (!m_done)
-  {
-    int a=in->Read(m_buf,m_bufsize);
-    if (a>0)
-    {
-      int spllen=a*4/(m_bps); // a*8/m_bps/nch
-      float *inptrs[2], *outptrs[2];
-      inptrs[0]=m_procbuf;
-      inptrs[1]=m_procbuf+spllen;
-      outptrs[0]=m_procbuf+spllen*2;
-      outptrs[1]=m_procbuf+spllen*3;
-
-      pcmToFloats(m_buf,spllen,m_bps,2,inptrs[0],1);
-      pcmToFloats(m_buf+(m_bps/8),spllen,m_bps,2,inptrs[1],1);
-
-      if (m_splproc) m_splproc(inptrs,2,outptrs,2,spllen,m_srate);
-
-      floatsToPcm(outptrs[0],1,spllen,m_buf,m_bps,2);
-      floatsToPcm(outptrs[1],1,spllen,m_buf+(m_bps/8),m_bps,2);
-      
-
-      out->Write(m_buf,a);
-    }
-    else Sleep(1);
-  }
-}
-
-
-audioStreamer *create_audioStreamer_KS(int srate, int bps, int *nbufs, int *bufsize, SPLPROC proc)
-{
-  audioStreamer_KS *in=new audioStreamer_KS();
-  if (in->Open(0,srate,bps,nbufs,bufsize))
-  {
-    delete in;
-    return 0;
-  }
-  audioStreamer_KS *out=new audioStreamer_KS();
-  if (out->Open(1,srate,bps,nbufs,bufsize))
-  {
-    delete in;
-    delete out;
-    return 0;
-  }
-
-  return new audioStreamer_KS_asiosim(in,out,*bufsize,srate,bps, proc);
-}
-
 
 audioStreamer_KS::audioStreamer_KS()
 {
@@ -505,4 +399,123 @@ int audioStreamer_KS::Write(char *buf, int len) // returns 0 on success
   return 0;
 }
 
+
+/* audioStreamer_KS_asiosim class */
+
+class audioStreamer_KS_asiosim : public audioStreamer
+{
+	public:
+		audioStreamer_KS_asiosim(audioStreamer_KS *i, audioStreamer_KS *o, int bufsize, int srate, int bps, SPLPROC proc)
+    {
+      m_splproc=proc;
+      in=i;
+      out=o;
+      DWORD id;
+      m_bps=bps;
+      m_innch=m_outnch=2;
+      m_bps=bps;
+      m_srate=srate;
+      m_done=0;
+      m_buf=(char *)malloc(bufsize);
+      m_bufsize=bufsize;
+
+      m_procbuf=(float *)malloc((bufsize*64)/bps);// allocated 2x, input and output
+      hThread=CreateThread(NULL,0,threadProc,(LPVOID)this,0,&id);
+      SetThreadPriority(hThread,THREAD_PRIORITY_HIGHEST);
+    }
+		~audioStreamer_KS_asiosim()
+    {
+      m_done=1;
+      WaitForSingleObject(hThread,INFINITE);
+      CloseHandle(hThread);
+      delete in;
+      delete out;
+      free(m_buf);
+      free(m_procbuf);
+    }
+
+    const char *GetChannelName(int idx)
+    {
+      if (idx == 0) return "KS Left";
+      if (idx == 1) return "KS Right";
+      return NULL;
+    }
+
+	private:
+    void tp();
+    static DWORD WINAPI threadProc(LPVOID p)
+    {
+      audioStreamer_KS_asiosim *t=(audioStreamer_KS_asiosim*)p;
+      t->tp();
+      return 0;
+    }
+    audioStreamer_KS *in, *out;
+    
+    HANDLE hThread;
+    int m_done,m_bufsize;
+    char *m_buf;
+    float *m_procbuf;
+
+    SPLPROC m_splproc;
+};
+
+void audioStreamer_KS_asiosim::tp()
+{
+  while (!m_done)
+  {
+    int a=in->Read(m_buf,m_bufsize);
+    if (a>0)
+    {
+      int spllen=a*4/(m_bps); // a*8/m_bps/nch
+      float *inptrs[2], *outptrs[2];
+      inptrs[0]=m_procbuf;
+      inptrs[1]=m_procbuf+spllen;
+      outptrs[0]=m_procbuf+spllen*2;
+      outptrs[1]=m_procbuf+spllen*3;
+
+      pcmToFloats(m_buf,spllen,m_bps,2,inptrs[0],1);
+      pcmToFloats(m_buf+(m_bps/8),spllen,m_bps,2,inptrs[1],1);
+
+      if (m_splproc) m_splproc(inptrs,2,outptrs,2,spllen,m_srate);
+
+      floatsToPcm(outptrs[0],1,spllen,m_buf,m_bps,2);
+      floatsToPcm(outptrs[1],1,spllen,m_buf+(m_bps/8),m_bps,2);
+      
+
+      out->Write(m_buf,a);
+    }
+    else Sleep(1);
+  }
+}
+
+
+/* audioStreamer public constructors */
+
+audioStreamer* audioStreamer::NewKS(SPLPROC on_samples_proc)
+{
+  int n_blocks   = DEFAULT_KS_N_BLOCKS ;
+  int block_size = DEFAULT_KS_BLOCK_SIZE ;
+
+  return NewKS(on_samples_proc                         ,
+               DEFAULT_SAMPLE_RATE , DEFAULT_BIT_DEPTH ,
+               &n_blocks           , &block_size       ) ;
+}
+
+audioStreamer* audioStreamer::NewKS(SPLPROC on_samples_proc                   ,
+                                    int     sample_rate     , int  bit_depth  ,
+                                    int*    n_buffers       , int* buffer_size)
+{
+  audioStreamer_KS* input_streamer  = new audioStreamer_KS() ;
+  audioStreamer_KS* output_streamer = new audioStreamer_KS() ;
+
+  if (input_streamer ->Open(0 , sample_rate , bit_depth , n_buffers , buffer_size) ||
+      output_streamer->Open(1 , sample_rate , bit_depth , n_buffers , buffer_size)  )
+  {
+    delete input_streamer ; delete output_streamer ; return NULL ;
+  }
+  
+  return new audioStreamer_KS_asiosim(input_streamer , output_streamer ,
+                                      *buffer_size   , sample_rate     ,
+                                      bit_depth      , on_samples_proc ) ;
+}
 #endif // NO_SUPPORT_KS

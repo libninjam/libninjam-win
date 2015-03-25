@@ -179,6 +179,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ninjam\constants.h"
+				>
+			</File>
+			<File
 				RelativePath=".\WDL\dirscan.h"
 				>
 			</File>
@@ -323,11 +327,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ninjam\audiostream_asio_if.cpp"
+				RelativePath=".\ninjam\audiostream_ks.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\ninjam\audiostream_ks.cpp"
+				RelativePath=".\ninjam\audiostream_njasiodrv.cpp"
 				>
 			</File>
 			<File
