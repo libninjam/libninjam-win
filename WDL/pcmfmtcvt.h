@@ -2,9 +2,9 @@
     WDL - pcmfmtcvt.h
     Copyright (C) 2005 Cockos Incorporated
 
-    WDL is dual-licensed. You may modify and/or distribute WDL under either of 
+    WDL is dual-licensed. You may modify and/or distribute WDL under either of
     the following  licenses:
-    
+
       This software is provided 'as-is', without any express or implied
       warranty.  In no event will the authors be held liable for any damages
       arising from the use of this software.
@@ -20,7 +20,7 @@
       2. Altered source versions must be plainly marked as such, and must not be
          misrepresented as being the original software.
       3. This notice may not be removed or altered from any source distribution.
-      
+
 
     or:
 
@@ -42,10 +42,10 @@
 /*
 
   This file provides some simple functions for dealing with PCM audio.
-  Specifically: 
+  Specifically:
     + convert between 16/24/32 bit integer samples and flaots (only really tested on little-endian (i.e. x86) systems)
     + mix (and optionally resample, using low quality linear interpolation) a block of floats to another.
- 
+
 */
 
 #ifndef _PCMFMTCVT_H_
@@ -76,7 +76,7 @@ static inline void i32_to_float(int i32, float *p)
 static inline void float_to_i32(float *vv, int *i32)
 {
   float v = *vv;
-  if (v < 0.0) 
+  if (v < 0.0)
   {
 	  if (v < -1.0)
 	  {
@@ -95,7 +95,7 @@ static inline void float_to_i32(float *vv, int *i32)
 	  }
 	  else
 	  {
-  		
+
     		*i32=float2int(v*2147483648.0+0.5);
 	  }
   }
@@ -106,12 +106,12 @@ static inline void float_to_i32(float *vv, int *i32)
 static inline void i24_to_float(unsigned char *i24, float *p)
 {
   int val=(i24[0]) | (i24[1]<<8) | (i24[2]<<16);
-  if (val&0x800000) 
+  if (val&0x800000)
   {
 	  val|=0xFF000000;
   	  *p = (float) ((((double) val)) * (1.0 / (8388608.0)));
   }
-  else 
+  else
   {
 	  val&=0xFFFFFF;
   	  *p = (float) ((((double) val)) * (1.0 / (8388607.0)));
@@ -122,7 +122,7 @@ static inline void i24_to_float(unsigned char *i24, float *p)
 static inline void float_to_i24(float *vv, unsigned char *i24)
 {
   float v = *vv;
-  if (v < 0.0) 
+  if (v < 0.0)
   {
 	  if (v < -1.0)
 	  {
@@ -146,7 +146,7 @@ static inline void float_to_i24(float *vv, unsigned char *i24)
 	  }
 	  else
 	  {
-  		
+
     		int i=float2int(v*8388607+0.5);
     		i24[0]=(i)&0xff;
     		i24[1]=(i>>8)&0xff;
@@ -155,6 +155,12 @@ static inline void float_to_i24(float *vv, unsigned char *i24)
   }
 }
 
+/* unused funtions
+     * pcmToFloats
+     * floatsToPcm
+     * resampleLengthNeeded
+     * mixFloats
+     * mixFloatsNIOutput
 
 static void pcmToFloats(void *src, int items, int bps, int src_spacing, float *dest, int dest_spacing)
 {
@@ -162,10 +168,10 @@ static void pcmToFloats(void *src, int items, int bps, int src_spacing, float *d
   {
     int *i1=(int *)src;
     while (items--)
-    {          
+    {
       i32_to_float(*i1,dest);
       i1+=src_spacing;
-      dest+=dest_spacing;      
+      dest+=dest_spacing;
     }
   }
   else if (bps == 24)
@@ -173,7 +179,7 @@ static void pcmToFloats(void *src, int items, int bps, int src_spacing, float *d
     unsigned char *i1=(unsigned char *)src;
     int adv=3*src_spacing;
     while (items--)
-    {          
+    {
       i24_to_float(i1,dest);
       dest+=dest_spacing;
       i1+=adv;
@@ -183,7 +189,7 @@ static void pcmToFloats(void *src, int items, int bps, int src_spacing, float *d
   {
     short *i1=(short *)src;
     while (items--)
-    {          
+    {
       INT16_TO_float(*dest,*i1);
       i1+=src_spacing;
       dest+=dest_spacing;
@@ -238,7 +244,7 @@ static int resampleLengthNeeded(int src_srate, int dest_srate, int dest_len, dou
 }
 
 static void mixFloats(float *src, int src_srate, int src_nch,  // lengths are sample pairs
-                            float *dest, int dest_srate, int dest_nch, 
+                            float *dest, int dest_srate, int dest_nch,
                             int dest_len, float vol, float pan, double *state)
 {
   // fucko: better resampling, this is shite
@@ -269,14 +275,14 @@ static void mixFloats(float *src, int src_srate, int src_nch,  // lengths are sa
     if (src_srate != dest_srate)
     {
       int ipos = (int)rspos;
-      double fracpos=rspos-ipos; 
+      double fracpos=rspos-ipos;
       if (src_nch == 2)
       {
         ipos+=ipos;
         ls=src[ipos]*(1.0-fracpos) + src[ipos+2]*fracpos;
         rs=src[ipos+1]*(1.0-fracpos) + src[ipos+3]*fracpos;
       }
-      else 
+      else
       {
         rs=ls=src[ipos]*(1.0-fracpos) + src[ipos+1]*fracpos;
       }
@@ -321,7 +327,7 @@ static void mixFloats(float *src, int src_srate, int src_nch,  // lengths are sa
 }
 
 static void mixFloatsNIOutput(float *src, int src_srate, int src_nch,  // lengths are sample pairs. input is interleaved samples, output not
-                            float **dest, int dest_srate, int dest_nch, 
+                            float **dest, int dest_srate, int dest_nch,
                             int dest_len, float vol, float pan, double *state)
 {
   // fucko: better resampling, this is shite
@@ -343,7 +349,7 @@ static void mixFloatsNIOutput(float *src, int src_srate, int src_nch,  // length
     if (pan < 0.0f)  vol2 *= 1.0f+pan;
     else if (pan > 0.0f) vol1 *= 1.0f-pan;
   }
-  
+
 
   double rspos=*state;
   double drspos = 1.0;
@@ -355,14 +361,14 @@ static void mixFloatsNIOutput(float *src, int src_srate, int src_nch,  // length
     if (src_srate != dest_srate)
     {
       int ipos = (int)rspos;
-      double fracpos=rspos-ipos; 
+      double fracpos=rspos-ipos;
       if (src_nch == 2)
       {
         ipos+=ipos;
         ls=src[ipos]*(1.0-fracpos) + src[ipos+2]*fracpos;
         rs=src[ipos+1]*(1.0-fracpos) + src[ipos+3]*fracpos;
       }
-      else 
+      else
       {
         rs=ls=src[ipos]*(1.0-fracpos) + src[ipos+1]*fracpos;
       }
@@ -400,6 +406,6 @@ static void mixFloatsNIOutput(float *src, int src_srate, int src_nch,  // length
   }
   *state = rspos - (int)rspos;
 }
-
+*/
 
 #endif //_PCMFMTCVT_H_

@@ -32,3 +32,13 @@ obj/
 
 *.dsp
 *.dsw
+
+
+*.o
+libninjam-client.so
+libninjam-client.a
+libninjam-common.so
+libninjam-common.a
+ninjam/cursesclient/cninjam
+ninjam/server/ninjamsrv 
+

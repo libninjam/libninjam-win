@@ -19,7 +19,7 @@
 
 /*
 
-  This file implements an audioStreamer that uses Kernel Streaming.  
+  This file implements an audioStreamer that uses Kernel Streaming.
   It only exposes the following function:
 
   audioStreamer *create_audioStreamer_KS(int srate, int bps, int *nbufs, int *bufsize, SPLPROC proc);
@@ -40,7 +40,7 @@ static void myPrintf(char *s, ... ) { }
 
 
 #else
-//#ifdef 
+//#ifdef
 #include <stdarg.h>
 //#include <vargs.h>
 
@@ -183,7 +183,7 @@ int audioStreamer_KS::Open(int iswrite, int srate, int bps, int *nbufs, int *buf
   GUID  aguidEnumCats[] = { STATIC_KSCATEGORY_AUDIO, STATIC_KSCATEGORY_RENDER };
   GUID  aguidEnumCatsCap[] = { STATIC_KSCATEGORY_AUDIO, STATIC_KSCATEGORY_CAPTURE };
 
-  hr = 
+  hr =
         pEnumerator->EnumFilters
         (
             eAudRen,            // create audio render filters ...
@@ -254,7 +254,7 @@ int audioStreamer_KS::Open(int iswrite, int srate, int bps, int *nbufs, int *buf
   }
 
   }
-  else 
+  else
   {
     //capture
     pEnumerator->m_listFilters.GetHead((CKsFilter**)&m_pFilter_cap);	// just grab the first one we find TODO> fixme
@@ -348,7 +348,7 @@ void audioStreamer_KS::StartRead(int idx, int len) // returns 0 if blocked, < 0 
   Packets[idx].Header.FrameExtent = len;
   Packets[idx].Header.DataUsed = 0;
   HRESULT hr = m_pPin_cap->ReadData(&Packets[idx].Header, &Packets[idx].Signal);
-	if(!SUCCEEDED(hr)) 
+	if(!SUCCEEDED(hr))
   {
     SetEvent(Packets[idx].Signal.hEvent);
     return;
@@ -379,7 +379,7 @@ int audioStreamer_KS::Read(char *buf, int len) // returns 0 if blocked, < 0 if e
 }
 
 int audioStreamer_KS::Write(char *buf, int len) // returns 0 on success
-{ 
+{
 	DWORD dwWait = WaitForMultipleObjects(m_nbufs, hEventPool, FALSE, INFINITE);
 	if(dwWait == WAIT_FAILED) return 1;
 
@@ -450,7 +450,7 @@ class audioStreamer_KS_asiosim : public audioStreamer
       return 0;
     }
     audioStreamer_KS *in, *out;
-    
+
     HANDLE hThread;
     int m_done,m_bufsize;
     char *m_buf;
@@ -480,7 +480,7 @@ void audioStreamer_KS_asiosim::tp()
 
       floatsToPcm(outptrs[0],1,spllen,m_buf,m_bps,2);
       floatsToPcm(outptrs[1],1,spllen,m_buf+(m_bps/8),m_bps,2);
-      
+
 
       out->Write(m_buf,a);
     }
@@ -505,6 +505,10 @@ audioStreamer* audioStreamer::NewKS(SPLPROC on_samples_proc                   ,
                                     int     sample_rate     , int  bit_depth  ,
                                     int*    n_buffers       , int* buffer_size)
 {
+// TODO: the KS "constructor" requires writable memory for n_buffers and buffer_size
+//         but we are ignoring the results for now
+//       these should be an instance vars with public accessors
+
   audioStreamer_KS* input_streamer  = new audioStreamer_KS() ;
   audioStreamer_KS* output_streamer = new audioStreamer_KS() ;
 
@@ -513,7 +517,7 @@ audioStreamer* audioStreamer::NewKS(SPLPROC on_samples_proc                   ,
   {
     delete input_streamer ; delete output_streamer ; return NULL ;
   }
-  
+
   return new audioStreamer_KS_asiosim(input_streamer , output_streamer ,
                                       *buffer_size   , sample_rate     ,
                                       bit_depth      , on_samples_proc ) ;

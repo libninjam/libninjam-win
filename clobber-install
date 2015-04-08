@@ -1,0 +1,12 @@
+#!/bin/bash
+
+VERSION=0.07.001
+
+
+sudo cp ./ninjam/audiostream.h /usr/include/libninjam.0.07.001/ninjam/
+sudo cp ./ninjam/constants.h   /usr/include/libninjam.0.07.001/ninjam/
+sudo cp ./ninjam/njclient.h    /usr/include/libninjam.0.07.001/ninjam/
+sudo cp ./libninjam-client.a   /usr/lib/libninjam/libninjam-client.$VERSION.a
+sudo cp ./libninjam-client.so  /usr/lib/libninjam/libninjam-client.$VERSION.so
+sudo cp ./libninjam-common.a   /usr/lib/libninjam/libninjam-common.$VERSION.a
+sudo cp ./libninjam-common.so  /usr/lib/libninjam/libninjam-common.$VERSION.so
