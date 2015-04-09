@@ -173,14 +173,14 @@ public:
 #endif
 
 #ifndef WDL_STRING_IMPL_ONLY
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wwrite-strings"
   char *Get()
   {
     if (m_hb.Get()) return (char *)m_hb.Get();
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wwrite-strings"
     return "";
-  }
 #pragma GCC diagnostic pop
+  }
 
   private:
     WDL_HeapBuf m_hb;

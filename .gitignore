@@ -40,5 +40,4 @@ libninjam-client.a
 libninjam-common.so
 libninjam-common.a
 ninjam/cursesclient/cninjam
-ninjam/server/ninjamsrv 
-
+ninjam/server/ninjamsrv

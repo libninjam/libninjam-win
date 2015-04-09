@@ -155,13 +155,6 @@ static inline void float_to_i24(float *vv, unsigned char *i24)
   }
 }
 
-/* unused funtions
-     * pcmToFloats
-     * floatsToPcm
-     * resampleLengthNeeded
-     * mixFloats
-     * mixFloatsNIOutput
-
 static void pcmToFloats(void *src, int items, int bps, int src_spacing, float *dest, int dest_spacing)
 {
   if (bps == 32)
@@ -232,7 +225,6 @@ static void floatsToPcm(float *src, int src_spacing, int items, void *dest, int 
   }
 }
 
-
 static int resampleLengthNeeded(int src_srate, int dest_srate, int dest_len, double *state)
 {
   // safety
@@ -243,6 +235,7 @@ static int resampleLengthNeeded(int src_srate, int dest_srate, int dest_len, dou
 
 }
 
+/* unused function
 static void mixFloats(float *src, int src_srate, int src_nch,  // lengths are sample pairs
                             float *dest, int dest_srate, int dest_nch,
                             int dest_len, float vol, float pan, double *state)
@@ -325,6 +318,7 @@ static void mixFloats(float *src, int src_srate, int src_nch,  // lengths are sa
   }
   *state = rspos - (int)rspos;
 }
+*/
 
 static void mixFloatsNIOutput(float *src, int src_srate, int src_nch,  // lengths are sample pairs. input is interleaved samples, output not
                             float **dest, int dest_srate, int dest_nch,
@@ -406,6 +400,5 @@ static void mixFloatsNIOutput(float *src, int src_srate, int src_nch,  // length
   }
   *state = rspos - (int)rspos;
 }
-*/
 
 #endif //_PCMFMTCVT_H_

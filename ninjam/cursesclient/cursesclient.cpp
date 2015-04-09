@@ -567,9 +567,12 @@ void showmainview(bool action=false, int ymove=0)
     }
     if (ypos < LINES-3)
     {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wwrite-strings"
       highlightoutline(ypos++,"  [new channel]",COLORMAP(0),COLORMAP(0),
                                  COLORMAP(0)|A_BOLD,COLORMAP(0),
                                  COLORMAP(5),COLORMAP(5),(g_sel_ypos != selpos++ || g_sel_ycat != selcat) ? -1 : g_sel_x);
+#pragma GCC diagnostic pop
     }
   }
 
@@ -663,9 +666,12 @@ void showmainview(bool action=false, int ymove=0)
 
   if (!selpos && ypos < linemax)
   {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wwrite-strings"
     highlightoutline(ypos++,"[no remote users]",COLORMAP(0),COLORMAP(0),
                                COLORMAP(0)|A_BOLD,COLORMAP(0),
                                COLORMAP(5),COLORMAP(5),(g_sel_ypos != selpos++ || g_sel_ycat != selcat) ? -1 : g_sel_x);
+#pragma GCC diagnostic pop
   }
 
   curs_ypos=LINES-1;
@@ -775,7 +781,10 @@ void showmainview(bool action=false, int ymove=0)
   {
 	  bkgdset(COLORMAP(2));
 	  attrset(COLORMAP(2));
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wwrite-strings"
     char *p1="RENAME CHANNEL:";
+#pragma GCC diagnostic pop
 	  mvaddnstr(LINES-2,0,p1,COLS-1);
 	  bkgdset(COLORMAP(0));
 	  attrset(COLORMAP(0));
@@ -979,7 +988,10 @@ int main(int argc, char **argv)
   {
     usage(1);
     printf("(no command line options specified, using interactive mode!)\n\n\nHost to connect to: ");
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-result"
     fgets(hostbuf,sizeof(hostbuf),stdin);
+#pragma GCC diagnostic pop
     if (hostbuf[0] && hostbuf[strlen(hostbuf)-1] == '\n') hostbuf[strlen(hostbuf)-1]=0;
     hostname=hostbuf;
     if (!hostbuf[0]) return 0;
@@ -1011,7 +1023,10 @@ int main(int argc, char **argv)
       }
       else if (!stricmp(argv[p],"-noaudiocfg"))
       {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wwrite-strings"
         audioconfigstr="";
+#pragma GCC diagnostic pop
       }
       else if (!stricmp(argv[p],"-audiostr"))
       {
@@ -1074,7 +1089,10 @@ int main(int argc, char **argv)
   {
     parmuser=userbuf;
     printf("Enter username: ");
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-result"
     fgets(userbuf,sizeof(userbuf),stdin);
+#pragma GCC diagnostic pop
     if (userbuf[0] && userbuf[strlen(userbuf)-1] == '\n') userbuf[strlen(userbuf)-1]=0;
     if (!userbuf[0]) return 0;
   }
@@ -1084,7 +1102,10 @@ int main(int argc, char **argv)
     if (strncmp(parmuser,"anonymous",9) || (parmuser[9] && parmuser[9] != ':'))
     {
       printf("Enter password: ");
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-result"
       fgets(passbuf,sizeof(passbuf),stdin);
+#pragma GCC diagnostic pop
       if (passbuf[0] && passbuf[strlen(passbuf)-1] == '\n') passbuf[strlen(passbuf)-1]=0;
     }
   }
@@ -1153,7 +1174,10 @@ int main(int argc, char **argv)
       {
         char buf[4096];
         buf[0]=0;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-result"
         fgets(buf,sizeof(buf),fp);
+#pragma GCC diagnostic pop
         if (!buf[0]) continue;
         if (buf[strlen(buf)-1] == '\n')
           buf[strlen(buf)-1]=0;

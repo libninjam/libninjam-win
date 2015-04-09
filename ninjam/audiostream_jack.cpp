@@ -160,11 +160,14 @@ bool audioStreamer_JACK::init(const char* clientName,
       jack_client_close(client);
       client = NULL;
     }
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
     if ((client = jack_client_new(clientName)) == 0) {
       fprintf (stderr, "jack server not running?\n");
       return false;
       // exit(20);
     }
+#pragma GCC diagnostic pop
 
     jack_set_process_callback (client, (JackProcessCallback) process_cb, this);
 

@@ -409,8 +409,11 @@ audioStreamer* audioStreamer::NewALSA(SPLPROC     on_samples_cb , std::string in
 audioStreamer *create_audioStreamer_ALSA(char *cfg, SPLPROC proc)
 {
   // todo: parse from cfg
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wwrite-strings"
   char *indev="hw:0,0";
   char *outdev="hw:0,0";
+#pragma GCC diagnostic pop
   int srate=48000;
   int nch=2;
   int bps=16;
