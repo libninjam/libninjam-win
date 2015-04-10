@@ -1,0 +1,5 @@
+#!/bin/bash
+
+
+g++ -O2 -malign-double -s -Wall -Wextra -I../.. -o cliplogcvt cliplogcvt.cpp -logg -lvorbis
+#g++ -O2 -Wall -Wextra -I../.. -o cliplogcvt cliplogcvt.cpp -logg -lvorbis
